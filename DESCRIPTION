@@ -17,5 +17,6 @@ Imports: tidyverse,
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,
-    openair
+    openair,
+    tidyverse
 VignetteBuilder: knitr
