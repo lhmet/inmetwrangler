@@ -21,8 +21,17 @@ a tibble
 Import raw data files of automatic stations
 }
 \examples{
+
 library(dplyr); library(purrr); library(stringr)
 # missing columns problem example
 myfile <- system.file("extdata", "A838.txt", package = "inmetwrangler")
 myfile
+ A838_problems <- import_txt_files_inmet(files = myfile, 
+                                         verbose = TRUE, 
+                                         only.problems = TRUE)
+ A838_data <- import_txt_files_inmet(files = myfile, 
+                                     verbose = TRUE, 
+                                     only.problems = FALSE)
+#  View(slice(A838_data, A838_problems$row))
+
 }
