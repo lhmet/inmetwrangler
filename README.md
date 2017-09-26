@@ -1,2 +1,36 @@
 # inmetwrangler
-processamento de dados "brutos" das estações automáticas do INMET
+
+`inmetwrangler` is a R-package with functions to wrangle data files from INMET's automatic weather stations.
+
+Installation
+------------
+
+`inmetwrangler` is easy to install from GitHub using the `devtools` package.
+
+``` r
+library(devtools)
+```
+
+``` r
+install_github('lhmet/inmetwrangler')
+```
+
+Load package
+
+``` r
+library(inmetwrangler)
+```
+
+Usage
+------------
+
+Please see `vignette("data-problems", "inmetwrangler")`.
+
+
+To do
+------------
+
+- [ ] Vignette about time consistency check of data files
+
+
+
