@@ -16,7 +16,7 @@ read_txt_file_inmet <- function(.file,
   # .file <- "inst/extdata/A838.txt"; .verbose = TRUE; .only.problems = TRUE
   # .file <- "inst/extdata/A803.txt"; .verbose = TRUE; .only.problems = TRUE
   # .file <- "inst/extdata/A852.txt"; .verbose = TRUE; .only.problems = TRUE
-
+  # .file = txt_files[3]; .verbose = FALSE; .only.problems = TRUE
   stopifnot(is.character(.file),
             is.logical(.verbose),
             is.logical(.only.problems),
@@ -92,7 +92,7 @@ read_txt_file_inmet <- function(.file,
     data_rows <- c(data_1st_row, data_rows)
     #head(data_rows); 
     #tail(data_rows)
-    if(verbose){
+    if (.verbose) {
       hdata <- data_rows %>%
         paste0(., collapse = "\n") %>%
         readr::read_delim(.,
@@ -108,7 +108,7 @@ read_txt_file_inmet <- function(.file,
       hdata <- data_rows %>%
         paste0(., collapse = "\n")
       hdata <- suppressWarnings(
-        readr::read_delim(hdata.,
+        readr::read_delim(hdata,
                           delim = " ",
                           skip = 2, 
                           col_names = FALSE,
@@ -272,6 +272,6 @@ import_txt_files_inmet <- function(files,
   purrr::map_df(files, 
                 ~read_txt_file_inmet(.x,
                                      .only.problems = only.problems, 
-                                     .verbose = verbose)
-                )
+                                     .verbose = verbose
+                ))
 }
