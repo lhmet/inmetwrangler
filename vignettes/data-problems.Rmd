@@ -114,7 +114,7 @@ diagnosticar problemas na estrutura dos dados.
 Conforme [nota técnica do INMET](http://www.inmet.gov.br/portal/css/content/topo_iframe/pdf/Nota_Tecnica-Rede_estacoes_INMET.pdf) os arquivos devem conter 23 variáveis meteorológicas (especificadas na seção IMPORTANDO DADOS), uma com identificador da EMA e 4 com informação do ano, mês, dia e hora (UTC); totalizando 28 colunas. Mas nos arquivos ASCII fornecidos há uma coluna adicional com o símbolo "=". Então o total esperado de colunas nos arquivos texto é de 29 colunas.
 
 
-```{r, results='asis'}
+```{r}
 library(inmetwrangler)
 myfile <- system.file("extdata", "A838.txt", package = "inmetwrangler")
 myfile
@@ -174,8 +174,8 @@ hdata
 The figure sizes have been customised so that you can easily put two images side-by-side. 
 
 ```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+library(openair)
+
 ```
 
 You can enable figure captions by `fig_caption: yes` in YAML:
