@@ -7,9 +7,9 @@
 import_txt_files_inmet(files, verbose = TRUE, only.problems = FALSE)
 }
 \arguments{
-\item{files}{character vecto with path to files}
+\item{files}{character vector with path to files}
 
-\item{verbose}{logical scalar}
+\item{verbose}{logical scalar. If TRUE, print messages and warnings.}
 
 \item{only.problems}{logical scalar. Use TRUE to return a tibble 
 with problems information on file and FALSE to return meteorological data.}
