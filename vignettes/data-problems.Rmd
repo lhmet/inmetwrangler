@@ -44,6 +44,16 @@ problemas. Esta informação pode servir para verificação dos dados com a agê
 que forneceu os dados, para descartar a hipótese de algum problema na extração 
 dos dados ou na operação manual dos arquivos texto.
 
+## Pré-requisitos
+
+Instalação do pacote `inmetwrangler`:
+
+```{r, eval = FALSE}
+library(devtools)
+install_github("lhmet/inmetwrangler")
+```
+
+
 ## Dados
 
 Os dados dos exemplos abaixo são disponibilizados com o próprio pacote 
