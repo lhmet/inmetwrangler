@@ -92,19 +92,35 @@ read_txt_file_inmet <- function(.file,
     data_rows <- c(data_1st_row, data_rows)
     #head(data_rows); 
     #tail(data_rows)
-    
-    hdata <- data_rows %>%
-      paste0(., collapse = "\n") %>%
-      readr::read_delim(.,
-                        delim = " ",
-                        skip = 2, 
-                        col_names = FALSE,
-                        na = c("//////","/////", "////",
-                               "///", "//", "/", "="),
-                        guess_max = 16000) %>%
-      setNames(var_names) %>%
-      dplyr::select(-trash)
-    
+    if(verbose){
+      hdata <- data_rows %>%
+        paste0(., collapse = "\n") %>%
+        readr::read_delim(.,
+                          delim = " ",
+                          skip = 2, 
+                          col_names = FALSE,
+                          na = c("//////","/////", "////",
+                                 "///", "//", "/", "="),
+                          guess_max = 16000) %>%
+        setNames(var_names) %>%
+        dplyr::select(-trash)  
+    } else {
+      hdata <- data_rows %>%
+        paste0(., collapse = "\n")
+      hdata <- suppressWarnings(
+        readr::read_delim(hdata.,
+                          delim = " ",
+                          skip = 2, 
+                          col_names = FALSE,
+                          na = c("//////","/////", "////",
+                                 "///", "//", "/", "="),
+                          guess_max = 16000)
+        )
+      hdata <- hdata %>%
+        setNames(var_names) %>%
+        dplyr::select(-trash)  
+    }
+
     probs <- readr::problems(hdata)
     # because data were read with read_file
     if (nrow(probs) > 0) {
