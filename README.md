@@ -25,7 +25,7 @@ Usage
 ------------
 
 Please see `vignette("data-problems", "inmetwrangler")`.
-
+A html version is available [here](http://rpubs.com/jdtatsch/data-problems) (*in portuguese*).
 
 To do
 ------------
