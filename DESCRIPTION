@@ -7,8 +7,7 @@ Depends: R (>= 3.4.1)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: tidyverse,
-    magrittr,
+Imports: magrittr,
     stringr,
     dplyr,
     purrr,
