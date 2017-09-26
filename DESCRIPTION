@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("Jonatan", "Tatsch", email = "lhmet@ufsm.br", role = c("aut", "cre"))
 Description: Tools to process raw data files from INMET's automatic weather stations.
 Depends: R (>= 3.4.1)
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: tidyverse,
