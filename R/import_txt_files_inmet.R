@@ -75,6 +75,7 @@ read_txt_file_inmet <- function(.file,
                  "visib", "trash")
   
   #all_lines[row_limits]
+# file format 1 ---------------------------------------------------------------
   if (file_format == 1) {
     
     # raw txt file
@@ -119,7 +120,7 @@ read_txt_file_inmet <- function(.file,
       hdata <- hdata %>%
         setNames(var_names) %>%
         dplyr::select(-trash)  
-    }
+    }# end if .verbose
 
     probs <- readr::problems(hdata)
     # because data were read with read_file
@@ -147,7 +148,9 @@ read_txt_file_inmet <- function(.file,
                               readr::parse_integer)
     # hdata
     
-  } else {# file_format == 2
+  } else {
+# file format 2 ---------------------------------------------------------------
+    
     ## txt file cleaned manualy
     # head(all_lines)
     # tail(all_lines)
@@ -165,22 +168,42 @@ read_txt_file_inmet <- function(.file,
     #            skip = 2,
     #            #na = c("//////","/////", "////", "///", "//", "/", "=")
     #            )
-    
-    hdata <- readr::read_file(.file) %>%
-      #stringi::stri_enc_toutf8(.) %>%
-      #stringi::stri_conv(x, to = "UTF-8", from = "latin1")
-      #stringr::str_replace_all(., "[/]{1,6}", "NA") %>%
-      readr::read_delim(.,
-                        delim = " ",
-                        # because A804 was send after others
-                        # and A803
-                        skip = to_skip, 
-                        col_names = FALSE,
-                        na = c("//////","/////", "////", "///", "//", "/", "="),
-                        guess_max = 16000
-                        ) %>%
-      setNames(var_names) %>%
-      dplyr::select(-trash)
+    if (.verbose) {
+      hdata <- readr::read_file(.file) %>%
+        #stringi::stri_enc_toutf8(.) %>%
+        #stringi::stri_conv(x, to = "UTF-8", from = "latin1")
+        #stringr::str_replace_all(., "[/]{1,6}", "NA") %>%
+        readr::read_delim(.,
+                          delim = " ",
+                          # because A804 was send after others
+                          # and A803
+                          skip = to_skip, 
+                          col_names = FALSE,
+                          na = c("//////","/////", "////", "///", "//", "/", "="),
+                          guess_max = 16000
+        ) %>%
+        setNames(var_names) %>%
+        dplyr::select(-trash)
+    } else {
+      hdata <- readr::read_file(.file) 
+        #stringi::stri_enc_toutf8(.) %>%
+        #stringi::stri_conv(x, to = "UTF-8", from = "latin1")
+        #stringr::str_replace_all(., "[/]{1,6}", "NA") %>%
+        hdata <- suppressWarnings(
+          readr::read_delim(hdata,
+                            delim = " ",
+                            # because A804 was send after others
+                            # and A803
+                            skip = to_skip, 
+                            col_names = FALSE,
+                            na = c("//////","/////", "////", "///", "//", "/", "="),
+                            guess_max = 16000)
+        )
+
+        hdata <- hdata %>%
+          setNames(var_names) %>%
+          dplyr::select(-trash)
+    } # end if .verbose
     
     probs <- readr::problems(hdata)
     # View(hdata[probs[["row"]], ])
