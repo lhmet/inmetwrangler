@@ -1,8 +1,8 @@
 Package: inmetwrangler
-Title: Functions to wrangle ascii data files from INMET's stations
+Title: Functions to wrangle data files from INMET's stations
 Version: 0.0.0.9000
 Authors@R: person("Jonatan", "Tatsch", email = "lhmet@ufsm.br", role = c("aut", "cre"))
-Description: Tools to process raw data files from INMET's automatic weather stations.
+Description: Functions to wrangle data files from INMET's automatic weather stations.
 Depends: R (>= 3.4.1)
 License: MIT + file LICENSE
 Encoding: UTF-8
