@@ -7,16 +7,16 @@
 #' @param .only.problems logical scalar. TRUE to report problems, 
 #' FALSE default to return meteorological data
 #' @return a tibble with data or problems
-#' 
+#' @export
 read_txt_file_inmet <- function(.file, 
                                 .verbose = TRUE,
                                 .only.problems = FALSE){
   
-  # .file <- "RAW-DATA-8o-DISME/RS_menos_A804/A803.txt"; .verbose = TRUE
-  # .file <- "RAW-DATA-8o-DISME/RS_menos_A804/A852.txt"; .verbose = TRUE
-  # .file <- "RAW-DATA-8o-DISME/RS_menos_A804/A805.txt"; .verbose = TRUE
-  # .file <- "RAW-DATA-8o-DISME/RS_menos_A804/A838.txt"; .verbose = TRUE
-  
+  # .file <- "inst/extdata/A805.txt"; .verbose = TRUE; .only.problems = TRUE
+  # .file <- "inst/extdata/A838.txt"; .verbose = TRUE; .only.problems = TRUE
+  # .file <- "inst/extdata/A803.txt"; .verbose = TRUE; .only.problems = TRUE
+  # .file <- "inst/extdata/A852.txt"; .verbose = TRUE; .only.problems = TRUE
+
   stopifnot(is.character(.file),
             is.logical(.verbose),
             is.logical(.only.problems),
@@ -176,7 +176,15 @@ read_txt_file_inmet <- function(.file,
                       file_path = .file,
                       )
     } else {
-      probs <- NULL
+      #probs <- NULL
+      probs <- tibble::tibble(
+                             row = 0,
+                             row_file = 0,
+                             col = 0,
+                             expected = paste(ncol(hdata), "columns"),
+                             actual = paste(ncol(hdata), "columns"),
+                             file = basename(.file), 
+                             file_path = .file)
     }
     if (.only.problems) return(probs)
     
@@ -227,11 +235,17 @@ read_txt_file_inmet <- function(.file,
 #'
 #' @return a tibble 
 #' @export
-
+#' @examples
+#' library(dplyr); library(purrr); library(stringr)
+#'# missing columns problem example
+#'myfile <- system.file("extdata", "A838.txt", package = "inmetwrangler")
+#'myfile
 import_txt_files_inmet <- function(files, 
                                    verbose = TRUE, 
                                    only.problems = FALSE){
-  purrr::map_df(files, ~read_txt_file_inmet(.x), 
-                .only.problems = only.problems, 
-                .verbose = verbose)
+  purrr::map_df(files, 
+                ~read_txt_file_inmet(.x,
+                                     .only.problems = only.problems, 
+                                     .verbose = verbose)
+                )
 }
