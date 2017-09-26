@@ -228,8 +228,8 @@ read_txt_file_inmet <- function(.file,
 
 #' Import raw data files of automatic stations 
 #'
-#' @param files character vecto with path to files
-#' @param verbose logical scalar
+#' @param files character vector with path to files
+#' @param verbose logical scalar. If TRUE, print messages and warnings.
 #' @param only.problems logical scalar. Use TRUE to return a tibble 
 #' with problems information on file and FALSE to return meteorological data.
 #'
