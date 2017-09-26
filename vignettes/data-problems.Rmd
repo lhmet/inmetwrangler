@@ -6,6 +6,7 @@ output:
   rmarkdown::html_vignette:
     toc: true
     keep_md: true
+    fig_caption: yes
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -72,8 +73,8 @@ os dados foram extraídos do banco de dados ou dependente do técnico reponsáve
 pelo banco de dados.
 
 Os arquivos disponibilizados com o pacote são exemplos de arquivos com 
-diferentes cabeçalhos. O cabeçalho inclui o comando `SQL` usado para 
-extração dos dados a partir do banco de dados.
+diferentes cabeçalhos^[O cabeçalho inclui o comando `SQL` usado para 
+extração dos dados a partir do banco de dados.]. 
 
 - Arquivo com 4 linhas de cabeçalho sendo a 1ª observação apendada na última
 linha do cabeçalho
@@ -157,14 +158,15 @@ Foram encontradas `r nrow(A852_problems)` observações com mais variáveis do q
 A função `import_txt_files_inmet()` importa arquivos de dados 
 horários dando conta das diferenças de cabeçalhos dos arquivos e preenche (ou remove) as variáveis de uma observação com campos incompletos (excedentes).
 
-```{r}
+```{r, results='asis'}
 txt_files <- list.files(system.file("extdata", 
                                 package = "inmetwrangler"),
                     full.names = TRUE)
 txt_files
 # merge data files
 hdata <- import_txt_files_inmet(files = txt_files, verbose = FALSE)
-hdata
+knitr::kable(head(hdata[, 1:10]))
+knitr::kable(tail(hdata[, 1:10]))
 ```
 
 
@@ -173,28 +175,15 @@ hdata
 
 The figure sizes have been customised so that you can easily put two images side-by-side. 
 
-```{r, fig.show='hold'}
+```{r, fig.align='center', fig.height=9, fig.width=6, fig.cap = "Séries horárias de Precipitação."}
 library(openair)
-
+nsites <- length(unique(hdata$site))
+timePlot(hdata, 
+         "prec", 
+         type = "site", 
+         plot.type = "h", 
+         layout = c(1, nsites),
+         date.format = "%b\n%Y")
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
