@@ -20,3 +20,9 @@ a tibble
 \description{
 Import raw data files of automatic stations
 }
+\examples{
+library(dplyr); library(purrr); library(stringr)
+# missing columns problem example
+myfile <- system.file("extdata", "A838.txt", package = "inmetwrangler")
+myfile
+}
