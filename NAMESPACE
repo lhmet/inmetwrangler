@@ -3,3 +3,5 @@
 export("%>%")
 export(import_txt_files_inmet)
 importFrom(dplyr,"%>%")
+importFrom(stats,setNames)
+importFrom(utils,head)
