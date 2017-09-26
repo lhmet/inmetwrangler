@@ -15,14 +15,14 @@ import_txt_files_inmet(files, verbose = TRUE, only.problems = FALSE)
 with problems information on file and FALSE to return meteorological data.}
 }
 \value{
-a tibble
+a tibble with data or problems, see \code{\link[tibble]{tibble}}
 }
 \description{
 Import raw data files of automatic stations
 }
 \examples{
 
-library(dplyr); library(purrr); library(stringr)
+library(dplyr); library(purrr); library(stringr); library(readr)
 # missing columns problem example
 myfile <- system.file("extdata", "A838.txt", package = "inmetwrangler")
 myfile
@@ -32,6 +32,7 @@ myfile
  A838_data <- import_txt_files_inmet(files = myfile, 
                                      verbose = TRUE, 
                                      only.problems = FALSE)
-#  View(slice(A838_data, A838_problems$row))
-
+#looking at rows
+for(irow in A838_problems$row) read_lines(myfile, skip = irow-2, n_max = irow+2)
+# View(slice(A838_data, A838_problems$row)) #  columns filled with NAs
 }

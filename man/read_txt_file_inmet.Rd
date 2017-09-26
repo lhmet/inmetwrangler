@@ -15,7 +15,7 @@ read_txt_file_inmet(.file, .verbose = TRUE, .only.problems = FALSE)
 FALSE default to return meteorological data}
 }
 \value{
-a tibble with data or problems
+a tibble with data or problems (see \code{\link[tibble]{tibble}})
 }
 \description{
 Read raw ASCII data file of INMET's automatic stations
