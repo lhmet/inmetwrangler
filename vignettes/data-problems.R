@@ -71,7 +71,9 @@ hdata <- import_txt_files_inmet(files = txt_files, verbose = FALSE)
 kable(head(hdata[, 1:10]))
 kable(tail(hdata[, 1:10]))
 
-## ---- fig.align='center', fig.height=9, fig.width=6, fig.cap = "Séries horárias de Precipitação."----
+## ---- fig.align='center', fig.height=9, fig.width=6, fig.cap = "Séries horárias de Precipitação.", include = FALSE----
+## Gráficos
+#The figure sizes have been customised so that you can easily put two images side-by-side. 
 nsites <- length(unique(hdata$site))
 timePlot(hdata, 
          "prec", 

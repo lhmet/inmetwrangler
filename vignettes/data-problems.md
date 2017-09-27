@@ -309,24 +309,8 @@ A852   2011-12-31 23:00:00        12.5         27        23.2       24.4       2
 
 
 
-## Gráficos
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
 
 
-```r
-nsites <- length(unique(hdata$site))
-timePlot(hdata, 
-         "prec", 
-         type = "site", 
-         plot.type = "h", 
-         layout = c(1, nsites),
-         date.format = "%b\n%Y")
-```
 
-<div class="figure" style="text-align: center">
-<img src="data-problems_files/figure-html/unnamed-chunk-14-1.png" alt="Séries horárias de Precipitação."  />
-<p class="caption">Séries horárias de Precipitação.</p>
-</div>
 
 
