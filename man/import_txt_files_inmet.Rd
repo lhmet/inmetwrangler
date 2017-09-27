@@ -4,15 +4,20 @@
 \alias{import_txt_files_inmet}
 \title{Import raw data files of automatic stations}
 \usage{
-import_txt_files_inmet(files, verbose = TRUE, only.problems = FALSE)
+import_txt_files_inmet(files, verbose = TRUE, only.problems = FALSE,
+  full.names = FALSE)
 }
 \arguments{
 \item{files}{character vector with path to files}
 
 \item{verbose}{logical scalar. If TRUE, print messages and warnings.}
 
-\item{only.problems}{logical scalar. Use TRUE to return a tibble 
+\item{only.problems}{logical value. Set TRUE to return a tibble 
 with problems information on file and FALSE to return meteorological data.}
+
+\item{full.names}{a logical value. If TRUE, the directory path is prepended 
+to the file names to give a relative file path. If FALSE, the file names 
+(rather than paths) are returned.}
 }
 \value{
 a tibble with data or problems, see \code{\link[tibble]{tibble}}

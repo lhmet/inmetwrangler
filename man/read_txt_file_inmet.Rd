@@ -2,21 +2,34 @@
 % Please edit documentation in R/import_txt_files_inmet.R
 \name{read_txt_file_inmet}
 \alias{read_txt_file_inmet}
-\title{Read raw ASCII data file of INMET's automatic stations}
+\title{Read ASCII data file of INMET's automatic weather stations}
 \usage{
-read_txt_file_inmet(.file, .verbose = TRUE, .only.problems = FALSE)
+read_txt_file_inmet(.file, .verbose = TRUE, .only.problems = FALSE,
+  .full.names = FALSE)
 }
 \arguments{
 \item{.file}{path to file}
 
-\item{.verbose}{logical scalar}
+\item{.verbose}{logical value, when it is set to TRUE show warnings 
+and messages}
 
-\item{.only.problems}{logical scalar. TRUE to report problems, 
-FALSE default to return meteorological data}
+\item{.only.problems}{logical value. Set TRUE to report problems, 
+FALSE to return meteorological data}
+
+\item{.full.names}{a logical value. If TRUE, the directory path is prepended 
+to the file names to give a relative file path. If FALSE, the file names 
+(rather than paths) are returned.}
 }
 \value{
-a tibble with data or problems (see \code{\link[tibble]{tibble}})
+A data frame with one row for each problem and four columns:
+  \item{row,col}{Row and column of problem}
+  \item{expected}{What readr expected to find}
+  \item{actual}{What it actually got}
+  \item{file}{file name or the path to file (if \code{.full.names} is TRUE)}
 }
 \description{
-Read raw ASCII data file of INMET's automatic stations
+Read ASCII data file of INMET's automatic weather stations
+}
+\details{
+When \code{only.problems} is TRUE a tibble with
 }
