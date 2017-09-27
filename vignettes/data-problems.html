@@ -97,8 +97,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>Pré-requisitos</h2>
 <p>Instalação do pacote <code>inmetwrangler</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
-<span class="kw">install_github</span>(<span class="st">&quot;lhmet/inmetwrangler&quot;</span>)
-<span class="kw">library</span>(inmetwrangler)</code></pre></div>
+<span class="kw">install_github</span>(<span class="st">&quot;lhmet/inmetwrangler&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(inmetwrangler)</code></pre></div>
 <p>Outros pacotes necessários para reproduzir os exemplos mostrados a seguir:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
 <span class="kw">library</span>(readr)
@@ -115,14 +115,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <pre><code>## [1] &quot;A804.txt&quot; &quot;A805.txt&quot; &quot;A819.txt&quot; &quot;A838.txt&quot; &quot;A852.txt&quot;</code></pre>
 <p>O caminho para um arquivo de dados pode ser obtido da seguinte forma:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A838.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)</code></pre></div>
-<pre><code>## 
-## Attaching package: 'dplyr'</code></pre>
-<pre><code>## The following objects are masked from 'package:stats':
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union</code></pre>
 <pre><code>## [1] &quot;/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A838.txt&quot;</code></pre>
 <div id="arquivos-com-cabecalho-variavel" class="section level3">
 <h3>Arquivos com cabeçalho variável</h3>
@@ -133,34 +125,34 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ex_file_h4 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A819.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)
 <span class="kw">head</span>(<span class="kw">read_lines</span>(ex_file_h4))</code></pre></div>
-<pre><code>[1] &quot;&lt;html&gt;&lt;head&gt;&quot;                                                                                                                                                                                                 
-[2] &quot;&lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;text/html; charset=windows-1252\&quot;&gt;&lt;/head&gt;&lt;body&gt;Sql&quot;                                                                                                               
-[3] &quot; - SELECT * FROM cadRema WHERE RemaEstacao='a819'  and RemaData BETWEEN &quot;                                                                                                                                     
-[4] &quot;'2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora &lt;br&gt;&lt;pre&gt;A819 2010 01 01 00 12.3 21 19.3 19.4 19.2 88 89 86 17.3 17.3 17.0 902.5 902.5 902.0 3.4 107 7.3 -2.510 0.0 / //// ///// ///// =&quot;
-[5] &quot;A819 2010 01 01 01 12.3 21 19.0 19.3 19.0 90 90 87 17.2 17.3 17.1 903.2 903.2 902.5 2.0 115 8.2 -2.320 0.0 / //// ///// ///// =&quot;                                                                              
-[6] &quot;A819 2010 01 01 02 12.3 20 18.6 19.0 18.6 90 90 89 16.9 17.3 16.9 903.3 903.4 903.2 2.6 127 6.7 -2.433 0.0 / //// ///// ///// =&quot;                                                                              </code></pre>
+<pre><code>## [1] &quot;&lt;html&gt;&lt;head&gt;&quot;                                                                                                                                                                                                 
+## [2] &quot;&lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;text/html; charset=windows-1252\&quot;&gt;&lt;/head&gt;&lt;body&gt;Sql&quot;                                                                                                               
+## [3] &quot; - SELECT * FROM cadRema WHERE RemaEstacao='a819'  and RemaData BETWEEN &quot;                                                                                                                                     
+## [4] &quot;'2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora &lt;br&gt;&lt;pre&gt;A819 2010 01 01 00 12.3 21 19.3 19.4 19.2 88 89 86 17.3 17.3 17.0 902.5 902.5 902.0 3.4 107 7.3 -2.510 0.0 / //// ///// ///// =&quot;
+## [5] &quot;A819 2010 01 01 01 12.3 21 19.0 19.3 19.0 90 90 87 17.2 17.3 17.1 903.2 903.2 902.5 2.0 115 8.2 -2.320 0.0 / //// ///// ///// =&quot;                                                                              
+## [6] &quot;A819 2010 01 01 02 12.3 20 18.6 19.0 18.6 90 90 89 16.9 17.3 16.9 903.3 903.4 903.2 2.6 127 6.7 -2.433 0.0 / //// ///// ///// =&quot;</code></pre>
 <ul>
 <li>Arquivo com 3 linhas de cabeçalho seguida de uma linha (4ª) em branco</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ex_file_h3 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A804.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)
 <span class="kw">head</span>(<span class="kw">read_lines</span>(ex_file_h3))</code></pre></div>
-<pre><code>[1] &quot;Sql - SELECT * FROM cadRema WHERE RemaEstacao='a804' and RemaData&quot;                                                              
-[2] &quot;BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY&quot;                                                                                 
-[3] &quot;RemaEstacao,RemaData,RemaHora&quot;                                                                                                  
-[4] &quot;&quot;                                                                                                                               
-[5] &quot;A804 2010 01 01 00 11.7 22 20.2 21.2 20.2 71 72 68 14.9 15.1 14.9 976.2 976.2 975.5 4.6 116 8.1 -3.540 0.0 / //// ///// ///// =&quot;
-[6] &quot;A804 2010 01 01 01 11.6 20 19.4 20.3 19.3 77 77 71 15.2 15.2 14.9 976.3 976.4 976.2 4.8 105 8.4 -3.540 0.0 / //// ///// ///// =&quot;</code></pre>
+<pre><code>## [1] &quot;Sql - SELECT * FROM cadRema WHERE RemaEstacao='a804' and RemaData&quot;                                                              
+## [2] &quot;BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY&quot;                                                                                 
+## [3] &quot;RemaEstacao,RemaData,RemaHora&quot;                                                                                                  
+## [4] &quot;&quot;                                                                                                                               
+## [5] &quot;A804 2010 01 01 00 11.7 22 20.2 21.2 20.2 71 72 68 14.9 15.1 14.9 976.2 976.2 975.5 4.6 116 8.1 -3.540 0.0 / //// ///// ///// =&quot;
+## [6] &quot;A804 2010 01 01 01 11.6 20 19.4 20.3 19.3 77 77 71 15.2 15.2 14.9 976.3 976.4 976.2 4.8 105 8.4 -3.540 0.0 / //// ///// ///// =&quot;</code></pre>
 <ul>
 <li>Arquivo com 1 linha de cabeçalho seguida de uma linha (2ª) em branco</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ex_file_h2 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A852.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)
 <span class="kw">head</span>(<span class="kw">read_lines</span>(ex_file_h2))</code></pre></div>
-<pre><code>[1] &quot;Sql - SELECT * FROM cadRema WHERE RemaEstacao='A852' and RemaData BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora &quot;
-[2] &quot;&quot;                                                                                                                                               
-[3] &quot;A852 2010 01 01 00 12.5 28 24.5 26.0 24.5 54 54 50 14.6 14.7 14.6 982.7 982.7 982.3 4.4 105 8.3 -3.540 0.0 / //// ///// ///// =&quot;                
-[4] &quot;A852 2010 01 01 01 12.5 26 23.2 24.5 23.2 60 60 54 15.0 15.0 14.7 983.1 983.2 982.7 5.0 106 9.7 -3.540 0.0 / //// ///// ///// =&quot;                
-[5] &quot;A852 2010 01 01 02 12.5 25 22.3 23.2 22.3 63 64 60 15.0 15.0 15.0 983.5 983.6 983.2 4.2 103 9.7 -3.540 0.0 / //// ///// ///// =&quot;                
-[6] &quot;A852 2010 01 01 03 12.5 24 21.9 22.3 21.9 65 65 63 15.1 15.1 14.9 983.5 983.6 983.4 4.6 100 8.8 -3.540 0.0 / //// ///// ///// =&quot;                </code></pre>
+<pre><code>## [1] &quot;Sql - SELECT * FROM cadRema WHERE RemaEstacao='A852' and RemaData BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora &quot;
+## [2] &quot;&quot;                                                                                                                                               
+## [3] &quot;A852 2010 01 01 00 12.5 28 24.5 26.0 24.5 54 54 50 14.6 14.7 14.6 982.7 982.7 982.3 4.4 105 8.3 -3.540 0.0 / //// ///// ///// =&quot;                
+## [4] &quot;A852 2010 01 01 01 12.5 26 23.2 24.5 23.2 60 60 54 15.0 15.0 14.7 983.1 983.2 982.7 5.0 106 9.7 -3.540 0.0 / //// ///// ///// =&quot;                
+## [5] &quot;A852 2010 01 01 02 12.5 25 22.3 23.2 22.3 63 64 60 15.0 15.0 15.0 983.5 983.6 983.2 4.2 103 9.7 -3.540 0.0 / //// ///// ///// =&quot;                
+## [6] &quot;A852 2010 01 01 03 12.5 24 21.9 22.3 21.9 65 65 63 15.1 15.1 14.9 983.5 983.6 983.4 4.6 100 8.8 -3.540 0.0 / //// ///// ///// =&quot;</code></pre>
 </div>
 </div>
 <div id="detectando-problemas" class="section level2">
@@ -212,20 +204,20 @@ A838_problems &lt;-<span class="st"> </span><span class="kw">import_txt_files_in
   ir &lt;-<span class="st"> </span>A838_problems<span class="op">$</span>row_file[i]
   <span class="kw">print</span>(<span class="kw">read_lines</span>(<span class="dt">file =</span> myfile)[(ir <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(ir <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)])
 }</code></pre></div>
-<pre><code> ------------ Problem  1  ------------ 
-[1] &quot;A838 2011 02 25 15 12.0 34 29.2 ///// ///// 74 /// /// 24.2 ///// ///// 999.3 ////// ////// 0.7 166 //// 831.986 0.0 / //// ///// ///// =&quot; 
-[2] &quot;A838 2011 02 25 16 12.0 34 28.0 ///// ///// 77 /// /// =&quot;                                                                                  
-[3] &quot;A838 2011 02 26 13 11.9 25 24.2 ///// ///// 85 /// /// 21.5 ///// ///// 1002.7 ////// ////// 2.6 186 //// 457.911 0.0 / //// ///// ///// =&quot;
- ------------ Problem  2  ------------ 
-[1] &quot;A838 2011 03 01 15 13.1 26 23.5 23.6 21.8 70 81 69 17.7 19.3 17.3 1007.0 1007.3 1007.0 2.6 119 7.5 1509.010 0.0 / //// ///// ///// =&quot;
-[2] &quot;A838 2011 03 01 16 12.2 28 23.2 ///// ///// 67 /// /// 16.8 ///// ///// 1006.7 ////// ////// //// /// //// 59 =&quot;                     
-[3] &quot;A838 2011 03 01 17 13.0 30 24.6 25.1 23.2 62 67 59 17.0 17.6 15.9 1006.2 1006.7 1006.2 2.3 110 8.7 2451.034 0.0 / //// ///// ///// =&quot;</code></pre>
+<pre><code>##  ------------ Problem  1  ------------ 
+## [1] &quot;A838 2011 02 25 15 12.0 34 29.2 ///// ///// 74 /// /// 24.2 ///// ///// 999.3 ////// ////// 0.7 166 //// 831.986 0.0 / //// ///// ///// =&quot; 
+## [2] &quot;A838 2011 02 25 16 12.0 34 28.0 ///// ///// 77 /// /// =&quot;                                                                                  
+## [3] &quot;A838 2011 02 26 13 11.9 25 24.2 ///// ///// 85 /// /// 21.5 ///// ///// 1002.7 ////// ////// 2.6 186 //// 457.911 0.0 / //// ///// ///// =&quot;
+##  ------------ Problem  2  ------------ 
+## [1] &quot;A838 2011 03 01 15 13.1 26 23.5 23.6 21.8 70 81 69 17.7 19.3 17.3 1007.0 1007.3 1007.0 2.6 119 7.5 1509.010 0.0 / //// ///// ///// =&quot;
+## [2] &quot;A838 2011 03 01 16 12.2 28 23.2 ///// ///// 67 /// /// 16.8 ///// ///// 1006.7 ////// ////// //// /// //// 59 =&quot;                     
+## [3] &quot;A838 2011 03 01 17 13.0 30 24.6 25.1 23.2 62 67 59 17.0 17.6 15.9 1006.2 1006.7 1006.2 2.3 110 8.7 2451.034 0.0 / //// ///// ///// =&quot;</code></pre>
 </div>
 <div id="caso-2-mais-variaveis-do-que-o-esperado" class="section level3">
 <h3>Caso 2: mais variáveis do que o esperado</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A852.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)
 myfile</code></pre></div>
-<p>[1] “/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A852.txt”</p>
+<pre><code>## [1] &quot;/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A852.txt&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A852_problems &lt;-<span class="st"> </span><span class="kw">import_txt_files_inmet</span>(<span class="dt">files =</span> myfile, 
                                         <span class="dt">verbose =</span> <span class="ot">FALSE</span>,
                                         <span class="dt">only.problems =</span> <span class="ot">TRUE</span>)
@@ -398,7 +390,11 @@ myfile</code></pre></div>
                                 <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>),
                     <span class="dt">full.names =</span> <span class="ot">TRUE</span>)
 txt_files</code></pre></div>
-<p>[1] “/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A804.txt” [2] “/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A805.txt” [3] “/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A819.txt” [4] “/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A838.txt” [5] “/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A852.txt”</p>
+<pre><code>## [1] &quot;/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A804.txt&quot;
+## [2] &quot;/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A805.txt&quot;
+## [3] &quot;/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A819.txt&quot;
+## [4] &quot;/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A838.txt&quot;
+## [5] &quot;/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A852.txt&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># merge data files</span>
 hdata &lt;-<span class="st"> </span><span class="kw">import_txt_files_inmet</span>(<span class="dt">files =</span> txt_files, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 <span class="kw">kable</span>(<span class="kw">head</span>(hdata[, <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]))</code></pre></div>
