@@ -53,6 +53,20 @@ library(devtools)
 install_github("lhmet/inmetwrangler")
 ```
 
+```{r}
+library(inmetwrangler)
+```
+
+
+Outros pacotes necessários para reproduzir os exemplos mostrados a seguir:
+
+```{r}
+library(knitr)
+library(readr)
+library(openair)
+```
+
+
 
 ## Dados
 
@@ -71,8 +85,15 @@ list.files(system.file("extdata", package = "inmetwrangler"
 
 O caminho para um arquivo de dados pode ser obtido da seguinte forma:
 
-```{r}
+```{r, eval = FALSE}
 system.file("extdata", "A838.txt", package = "inmetwrangler")
+```
+
+```{r, echo = FALSE}
+library(dplyr)
+system.file("extdata", "A838.txt", package = "inmetwrangler") %>%
+  stringr::str_replace_all(.libPaths()[1], "~/.R")
+detach(package:dplyr)
 ```
 
 ### Arquivos com cabeçalho variável
@@ -90,27 +111,21 @@ extração dos dados a partir do banco de dados.].
 linha do cabeçalho
 
 ```{r, comment=""}
-library(readr)
 ex_file_h4 <- system.file("extdata", "A819.txt", package = "inmetwrangler")
-ex_file_h4
 head(read_lines(ex_file_h4))
 ```
 
 - Arquivo com 3 linhas de cabeçalho seguida de uma linha (4ª) em branco
 
 ```{r, comment=""}
-library(readr)
 ex_file_h3 <- system.file("extdata", "A804.txt", package = "inmetwrangler")
-ex_file_h3
 head(read_lines(ex_file_h3))
 ```
 
 - Arquivo com 1 linha de cabeçalho seguida de uma linha (2ª) em branco
 
 ```{r, comment=""}
-library(readr)
 ex_file_h2 <- system.file("extdata", "A852.txt", package = "inmetwrangler")
-ex_file_h2
 head(read_lines(ex_file_h2))
 ```
 
@@ -126,13 +141,12 @@ Conforme [nota técnica do INMET](http://www.inmet.gov.br/portal/css/content/top
 
 
 ```{r}
-library(inmetwrangler)
 myfile <- system.file("extdata", "A838.txt", package = "inmetwrangler")
-myfile
 A838_problems <- import_txt_files_inmet(files = myfile, 
                                         verbose = FALSE,
-                                        only.problems = TRUE)
-knitr::kable(A838_problems)
+                                        only.problems = TRUE, 
+                                        full.names = TRUE)
+kable(A838_problems)
 ```
 
 A tabela de dados mostrada é auto-explicativa, mas é importante notar a diferença entre `row` (linha nos dados importados no R) e `row_file` (linha no arquivo ASCII). Foram encontradas `r nrow(A838_problems)` observações com menor n° de variáveis que o esperado.
@@ -157,7 +171,7 @@ myfile
 A852_problems <- import_txt_files_inmet(files = myfile, 
                                         verbose = FALSE,
                                         only.problems = TRUE)
-knitr::kable(A852_problems)
+kable(A852_problems)
 ```
 
 Foram encontradas `r nrow(A852_problems)` observações com mais variáveis do que o esperado (29). Essas linhas são consecutivas, desde a linha `r min(A852_problems$row_file)` no arquivo original até a linha `r max(A852_problems$row_file)`.
@@ -175,8 +189,8 @@ txt_files <- list.files(system.file("extdata",
 txt_files
 # merge data files
 hdata <- import_txt_files_inmet(files = txt_files, verbose = FALSE)
-knitr::kable(head(hdata[, 1:10]))
-knitr::kable(tail(hdata[, 1:10]))
+kable(head(hdata[, 1:10]))
+kable(tail(hdata[, 1:10]))
 ```
 
 
@@ -186,7 +200,6 @@ knitr::kable(tail(hdata[, 1:10]))
 The figure sizes have been customised so that you can easily put two images side-by-side. 
 
 ```{r, fig.align='center', fig.height=9, fig.width=6, fig.cap = "Séries horárias de Precipitação."}
-library(openair)
 nsites <- length(unique(hdata$site))
 timePlot(hdata, 
          "prec", 
