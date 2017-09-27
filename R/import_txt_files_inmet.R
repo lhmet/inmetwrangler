@@ -333,9 +333,9 @@ import_txt_files_inmet <- function(files,
                                                 .full.names = full.names
                            ))
    if (only.problems) {
-     res_tbl <- dplyr::filter(
-       res_tbl, row > 0 |
-         (readr::parse_number(expected) != readr::parse_number(actual))
+     res_tbl <- dplyr::filter( res_tbl, 
+                               row > 0 #|
+         #(readr::parse_number(expected) != readr::parse_number(actual))
      )
    }# end if prob
   return(res_tbl)
