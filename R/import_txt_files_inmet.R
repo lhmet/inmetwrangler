@@ -10,7 +10,9 @@
 #' @param .full.names a logical value. If TRUE, the directory path is prepended 
 #' to the file names to give a relative file path. If FALSE, the file names 
 #' (rather than paths) are returned.
-#' @details When \code{only.problems} is TRUE a tibble with 
+#' @details When \code{only.problems} is TRUE a data frame with one row for 
+#' each problem found for every file. When the files do not have any problem the 
+#' data frame is returned empty (0 rows).
 #' @return A data frame with one row for each problem and four columns:
 #'   \item{row,col}{Row and column of problem}
 #'   \item{expected}{What readr expected to find}

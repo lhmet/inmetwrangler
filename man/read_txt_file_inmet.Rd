@@ -31,5 +31,7 @@ A data frame with one row for each problem and four columns:
 Read ASCII data file of INMET's automatic weather stations
 }
 \details{
-When \code{only.problems} is TRUE a tibble with
+When \code{only.problems} is TRUE a data frame with one row for 
+each problem found for every file. When the files do not have any problem the 
+data frame is returned empty (0 rows).
 }

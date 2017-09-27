@@ -13,7 +13,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Os arquivos de dados horários das Estações Metorológicas Automáticas (EMA) do 
+Os arquivos de dados horários das Estações Meteorológicas Automáticas (EMA) do 
 INMET são disponibilizados em formato texto (ASCII). É comum em dados 
 armazenados em formato texto, mesmo temporariamente, que algum procedimento de 
 formatação manual seja realizada.
@@ -21,7 +21,7 @@ formatação manual seja realizada.
 A estrutura de armazenamento de dados mais comum em arquivos texto com dados 
 meteorológicos é a retangular, onde as observações ao longo das linhas e as 
 variáveis ao longo das colunas. Eventualmente, os arquivos são editados 
-manualmente e esse padrão pode ser quebrado, mesmo despropositalmente. 
+manualmente e esse padrão pode ser quebrado, mesmo despropositadamente. 
 Então uma da observação (linha) pode não conter os campos de todas as
 variáveis meteorológicas (colunas). 
 
@@ -39,7 +39,7 @@ Dessa forma, cada ano de dados ter-se-á 365 (ou 366) dias/ano $\times$
 24 horas/dia $=$ `r 365*24`  (`r 366*24`) observações.
 
 A seguir mostra-se como usar o pacote `inmetwrangler` para importar os dados
-das EMA do iNMET e diagnosticar onde (arquivos, linhas e colunas) ocorrem estes 
+das EMA do INMET e diagnosticar onde (arquivos, linhas e colunas) ocorrem estes 
 problemas. Esta informação pode servir para verificação dos dados com a agência
 que forneceu os dados, para descartar a hipótese de algum problema na extração 
 dos dados ou na operação manual dos arquivos texto.
@@ -104,7 +104,7 @@ detach(package:dplyr)
 
 Os arquivos de dados horários das EMA tem um cabeçalho que pode ocupar de 2 
 a 4 linhas. Essa variação no formato dos arquivos pode ser devido a forma como
-os dados foram extraídos do banco de dados ou dependente do técnico reponsável 
+os dados foram extraídos do banco de dados ou dependente do técnico responsável 
 pelo banco de dados.
 
 Os arquivos disponibilizados com o pacote são exemplos de arquivos com 
