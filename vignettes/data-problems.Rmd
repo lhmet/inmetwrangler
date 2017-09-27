@@ -89,7 +89,7 @@ O caminho para um arquivo de dados pode ser obtido da seguinte forma:
 system.file("extdata", "A838.txt", package = "inmetwrangler")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
 system.file("extdata", "A838.txt", package = "inmetwrangler") %>%
   stringr::str_replace_all(.libPaths()[1], "~/.R")
@@ -110,21 +110,21 @@ extração dos dados a partir do banco de dados.].
 - Arquivo com 4 linhas de cabeçalho sendo a 1ª observação apendada na última
 linha do cabeçalho
 
-```{r, comment=""}
+```{r}
 ex_file_h4 <- system.file("extdata", "A819.txt", package = "inmetwrangler")
 head(read_lines(ex_file_h4))
 ```
 
 - Arquivo com 3 linhas de cabeçalho seguida de uma linha (4ª) em branco
 
-```{r, comment=""}
+```{r}
 ex_file_h3 <- system.file("extdata", "A804.txt", package = "inmetwrangler")
 head(read_lines(ex_file_h3))
 ```
 
 - Arquivo com 1 linha de cabeçalho seguida de uma linha (2ª) em branco
 
-```{r, comment=""}
+```{r}
 ex_file_h2 <- system.file("extdata", "A852.txt", package = "inmetwrangler")
 head(read_lines(ex_file_h2))
 ```
@@ -154,7 +154,7 @@ Esperavam-se 29 variáveis para a observação da linha 9712 (9741), entretanto,
 
 Para verificar no arquivo original é possível abri-lo em um editor de texto, ou executar os comandos abaixo em que importamos o arquivo da EMA de interesse (`myfile`) e filtrarmos os dados entre uma linha acima (`ir - 1`) e uma abaixo (`ir + 1`) da linha com problema (`ir`). 
 
-```{r, comment=""}
+```{r}
 for (i in 1:nrow(A838_problems)) {
   cat(" ------------", "Problem ", i, " ------------", "\n")
   ir <- A838_problems$row_file[i]
@@ -165,7 +165,7 @@ for (i in 1:nrow(A838_problems)) {
 ### Caso 2: mais variáveis do que o esperado
 
 
-```{r, results='asis'}
+```{r}
 myfile <- system.file("extdata", "A852.txt", package = "inmetwrangler")
 myfile
 A852_problems <- import_txt_files_inmet(files = myfile, 
@@ -182,7 +182,7 @@ Foram encontradas `r nrow(A852_problems)` observações com mais variáveis do q
 A função `import_txt_files_inmet()` importa arquivos de dados 
 horários dando conta das diferenças de cabeçalhos dos arquivos e preenche (ou remove) as variáveis de uma observação com campos incompletos (excedentes).
 
-```{r, results='asis'}
+```{r}
 txt_files <- list.files(system.file("extdata", 
                                 package = "inmetwrangler"),
                     full.names = TRUE)
