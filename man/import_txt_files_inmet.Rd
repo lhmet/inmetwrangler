@@ -20,7 +20,11 @@ to the file names to give a relative file path. If FALSE, the file names
 (rather than paths) are returned.}
 }
 \value{
-a tibble with data or problems, see \code{\link[tibble]{tibble}}
+A data frame with one row for each problem and four columns:
+  \item{row,col}{Row and column of problem}
+  \item{expected}{What readr expected to find}
+  \item{actual}{What it actually got}
+  \item{file}{file name or the path to file (if \code{full.names} is TRUE)}
 }
 \description{
 Import raw data files of automatic stations
