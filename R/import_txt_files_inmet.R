@@ -49,6 +49,8 @@ read_txt_file_inmet <- function(.file,
     message(.file)
     message('AWS ID from header: ', aws_id_from_sql_cmd)
   }
+  stopifnot(aws_id_from_sql_cmd == 
+              stringr::str_extract(basename(.file), "[A-Za-z]{1}[0-9]{3,4}") )
   # head(read_lines(.file))
   # tail(read_lines(.file))
   
