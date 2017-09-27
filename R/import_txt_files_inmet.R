@@ -1,16 +1,26 @@
-#' Read raw ASCII data file of INMET's automatic stations
+#' Read ASCII data file of INMET's automatic weather stations
 #' @importFrom dplyr %>%
 #' @importFrom stats setNames 
 #' @importFrom utils head
 #' @param .file path to file
-#' @param .verbose logical scalar
-#' @param .only.problems logical scalar. TRUE to report problems, 
-#' FALSE default to return meteorological data
-#' @return a tibble with data or problems (see \code{\link[tibble]{tibble}})
+#' @param .verbose logical value, when it is set to TRUE show warnings 
+#' and messages
+#' @param .only.problems logical value. Set TRUE to report problems, 
+#' FALSE to return meteorological data
+#' @param .full.names a logical value. If TRUE, the directory path is prepended 
+#' to the file names to give a relative file path. If FALSE, the file names 
+#' (rather than paths) are returned.
+#' @details When \code{only.problems} is TRUE a tibble with 
+#' @return A data frame with one row for each problem and four columns:
+#'   \item{row,col}{Row and column of problem}
+#'   \item{expected}{What readr expected to find}
+#'   \item{actual}{What it actually got}
+#'   \item{file}{file name or the path to file (if \code{.full.names} is TRUE)}
 #' @export
 read_txt_file_inmet <- function(.file, 
                                 .verbose = TRUE,
-                                .only.problems = FALSE){
+                                .only.problems = FALSE,
+                                .full.names = FALSE){
   
   # .file <- "inst/extdata/A805.txt"; .verbose = TRUE; .only.problems = TRUE
   # .file <- "inst/extdata/A838.txt"; .verbose = TRUE; .only.problems = TRUE
@@ -127,10 +137,22 @@ read_txt_file_inmet <- function(.file,
     if (nrow(probs) > 0) {
       probs <- dplyr::mutate(probs,
                       row = row + 2,
-                      file = basename(.file), 
-                      file_path = .file)
+                      file = ifelse(.full.names, 
+                                    .file,
+                                    basename(.file)) 
+                      )
     } else {
-      probs <- NULL
+      #probs <- NULL
+      probs <- tibble::tibble(
+        row = 0,
+        row_file = 0,
+        col = 0,
+        expected = paste(ncol(hdata), "columns"),
+        actual = paste(ncol(hdata), "columns"),
+        file = ifelse(.full.names, 
+                      .file,
+                      basename(.file))
+      )
     }
     if (.only.problems) return(probs)
 
@@ -211,9 +233,10 @@ read_txt_file_inmet <- function(.file,
     if (nrow(probs) > 0) {
       probs <- dplyr::mutate(probs,
                       row_file = row + to_skip,
-                      file = basename(.file), 
-                      file_path = .file,
-                      )
+                      file = ifelse(.full.names, 
+                                    .file,
+                                    basename(.file))
+      )
     } else {
       #probs <- NULL
       probs <- tibble::tibble(
@@ -222,8 +245,10 @@ read_txt_file_inmet <- function(.file,
                              col = 0,
                              expected = paste(ncol(hdata), "columns"),
                              actual = paste(ncol(hdata), "columns"),
-                             file = basename(.file), 
-                             file_path = .file)
+                             file = ifelse(.full.names, 
+                                           .file,
+                                           basename(.file))
+                             )
     }
     if (.only.problems) return(probs)
     
@@ -269,9 +294,11 @@ read_txt_file_inmet <- function(.file,
 #'
 #' @param files character vector with path to files
 #' @param verbose logical scalar. If TRUE, print messages and warnings.
-#' @param only.problems logical scalar. Use TRUE to return a tibble 
+#' @param only.problems logical value. Set TRUE to return a tibble 
 #' with problems information on file and FALSE to return meteorological data.
-#'
+#' @param full.names a logical value. If TRUE, the directory path is prepended 
+#' to the file names to give a relative file path. If FALSE, the file names 
+#' (rather than paths) are returned.
 #' @return a tibble with data or problems, see \code{\link[tibble]{tibble}}
 #' @export
 #' @examples
@@ -291,10 +318,21 @@ read_txt_file_inmet <- function(.file,
 #'# View(slice(A838_data, A838_problems$row)) #  columns filled with NAs
 import_txt_files_inmet <- function(files, 
                                    verbose = TRUE, 
-                                   only.problems = FALSE){
-  purrr::map_df(files, 
-                ~read_txt_file_inmet(.x,
-                                     .only.problems = only.problems, 
-                                     .verbose = verbose
-                ))
+                                   only.problems = FALSE,
+                                   full.names = FALSE){
+  res_tbl <- purrr::map_df(files, 
+                           ~read_txt_file_inmet(.x,
+                                                .only.problems = only.problems, 
+                                                .verbose = verbose,
+                                                .full.names = full.names
+                           ))
+   if (only.problems) {
+     res_tbl <- dplyr::filter(
+       res_tbl, row > 0 |
+         (readr::parse_number(expected) != readr::parse_number(actual))
+     )
+   }# end if prob
+  return(res_tbl)
 }
+
+
