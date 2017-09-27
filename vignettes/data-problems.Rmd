@@ -195,11 +195,11 @@ kable(tail(hdata[, 1:10]))
 
 
 
+
+
+```{r, fig.align='center', fig.height=9, fig.width=6, fig.cap = "Séries horárias de Precipitação.", include = FALSE}
 ## Gráficos
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.align='center', fig.height=9, fig.width=6, fig.cap = "Séries horárias de Precipitação."}
+#The figure sizes have been customised so that you can easily put two images side-by-side. 
 nsites <- length(unique(hdata$site))
 timePlot(hdata, 
          "prec", 
