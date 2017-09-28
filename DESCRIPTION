@@ -1,7 +1,7 @@
 Package: inmetwrangler
 Title: Functions to Wrangle Data Files from INMET Weather Stations
 Version: 0.0.1
-Authors@R: person("Jonatan", "Tatsch", email = "lhmet@ufsm.br", role = c("aut", "cre"))
+Authors@R: person("Jonatan", "Tatsch", email = "jdtatsch@gmail.com", role = c("aut", "cre"))
 Description: Functions to wrangle data files from INMET's automatic weather stations.
 Depends: R (>= 3.4.1)
 License: MIT + file LICENSE
