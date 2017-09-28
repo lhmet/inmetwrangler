@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jonatan Tatsch" />
 
-<meta name="date" content="2017-09-27" />
+<meta name="date" content="2017-09-28" />
 
 <title>Diagnóstico de problemas na estrutura dos dados de 2010-2011.</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Diagnóstico de problemas na estrutura dos dados de 2010-2011.</h1>
 <h4 class="author"><em>Jonatan Tatsch</em></h4>
-<h4 class="date"><em>2017-09-27</em></h4>
+<h4 class="date"><em>2017-09-28</em></h4>
 
 
 <div id="TOC">
@@ -160,7 +160,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>A função <code>import_txt_files_inmet()</code> além de importar os arquivos de dados horários considerando os diferentes cabeçalhos dos arquivos, também é usada para diagnosticar problemas na estrutura dos dados.</p>
 <div id="caso-1-menos-variaveis-do-que-o-esperado" class="section level3">
 <h3>Caso 1: menos variáveis do que o esperado</h3>
-<p>Conforme <a href="http://www.inmet.gov.br/portal/css/content/topo_iframe/pdf/Nota_Tecnica-Rede_estacoes_INMET.pdf">nota técnica do INMET</a> os arquivos devem conter 23 variáveis meteorológicas (especificadas na seção IMPORTANDO DADOS), uma com identificador da EMA e 4 com informação do ano, mês, dia e hora (UTC); totalizando 28 colunas. Mas nos arquivos ASCII fornecidos há uma coluna adicional com o símbolo “=”. Então o total esperado de colunas nos arquivos texto é de 29 colunas.</p>
+<p>Conforme <a href="http://www.inmet.gov.br/portal/css/content/topo_iframe/pdf/Nota_Tecnica-Rede_estacoes_INMET.pdf">nota técnica do INMET</a> os arquivos devem conter 23 variáveis meteorológicas (especificadas na seção IMPORTANDO DADOS), uma com identificador da EMA e 4 com informação do ano, mês, dia e hora (UTC); totalizando 28 colunas. Mas nos arquivos ASCII fornecidos há uma coluna adicional com o símbolo “=”. Então o total esperado de colunas nos arquivos texto é de 29 colunas<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A838.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)
 A838_problems &lt;-<span class="st"> </span><span class="kw">import_txt_files_inmet</span>(<span class="dt">files =</span> myfile, 
                                         <span class="dt">verbose =</span> <span class="ot">FALSE</span>,
@@ -602,6 +602,7 @@ hdata &lt;-<span class="st"> </span><span class="kw">import_txt_files_inmet</spa
 <hr />
 <ol>
 <li id="fn1"><p>O cabeçalho inclui o comando <code>SQL</code> usado para extração dos dados a partir do banco de dados.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>A coluna excedente é desconsiderada na saída da função <code>import_txt_files_inmet()</code>, mas para diagnóstico de problemas ela é considerada.<a href="#fnref2">↩</a></p></li>
 </ol>
 </div>
 
