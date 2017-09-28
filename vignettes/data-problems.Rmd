@@ -141,7 +141,7 @@ diagnosticar problemas na estrutura dos dados.
 
 ### Caso 1: menos variáveis do que o esperado
 
-Conforme [nota técnica do INMET](http://www.inmet.gov.br/portal/css/content/topo_iframe/pdf/Nota_Tecnica-Rede_estacoes_INMET.pdf) os arquivos devem conter 23 variáveis meteorológicas (especificadas na seção IMPORTANDO DADOS), uma com identificador da EMA e 4 com informação do ano, mês, dia e hora (UTC); totalizando 28 colunas. Mas nos arquivos ASCII fornecidos há uma coluna adicional com o símbolo "=". Então o total esperado de colunas nos arquivos texto é de 29 colunas.
+Conforme [nota técnica do INMET](http://www.inmet.gov.br/portal/css/content/topo_iframe/pdf/Nota_Tecnica-Rede_estacoes_INMET.pdf) os arquivos devem conter 23 variáveis meteorológicas (especificadas na seção IMPORTANDO DADOS), uma com identificador da EMA e 4 com informação do ano, mês, dia e hora (UTC); totalizando 28 colunas. Mas nos arquivos ASCII fornecidos há uma coluna adicional com o símbolo "=". Então o total esperado de colunas nos arquivos texto é de 29 colunas^[A coluna excedente é desconsiderada na saída da função `import_txt_files_inmet()`, mas para diagnóstico de problemas ela é considerada.].
 
 
 ```{r}

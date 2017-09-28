@@ -5,10 +5,13 @@
 ## ------------------------------------------------------------------------
 library(inmetwrangler)
 
-## ------------------------------------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
+knitr::opts_chunk$set(comment = "#>")
+
+## ---- message=FALSE, warning=FALSE---------------------------------------
 library(knitr)
-library(readr)
-library(openair)
+library(tidyverse)
+library(stringr)
 
 ## ------------------------------------------------------------------------
 #.libPaths()
@@ -64,21 +67,31 @@ kable(A852_problems)
 ## ------------------------------------------------------------------------
 txt_files <- list.files(system.file("extdata", 
                                 package = "inmetwrangler"),
-                    full.names = TRUE)
-txt_files
+                    full.names = TRUE) 
+txt_files_no_prob <- discard(txt_files, ~str_detect(.x, "A852|A838"))
+# somente arquivos sem problemas estruturais
+basename(txt_files_no_prob)
+probs <- import_txt_files_inmet(txt_files_no_prob, 
+                       verbose = FALSE, 
+                       only.problems = TRUE, 
+                       full.names = FALSE)
+probs
+str(probs)
+
+## ------------------------------------------------------------------------
 # merge data files
 hdata <- import_txt_files_inmet(files = txt_files, verbose = FALSE)
 kable(head(hdata[, 1:10]))
 kable(tail(hdata[, 1:10]))
 
-## ---- fig.align='center', fig.height=9, fig.width=6, fig.cap = "Séries horárias de Precipitação.", include = FALSE----
-## Gráficos
-#The figure sizes have been customised so that you can easily put two images side-by-side. 
-nsites <- length(unique(hdata$site))
-timePlot(hdata, 
-         "prec", 
-         type = "site", 
-         plot.type = "h", 
-         layout = c(1, nsites),
-         date.format = "%b\n%Y")
+## ---- fig.align='center', fig.height=9, fig.width=6, fig.cap = "Séries horárias de Precipitação.", eval = FALSE, echo=FALSE----
+#  ## Gráficos
+#  #The figure sizes have been customised so that you can easily put two images side-by-side.
+#  nsites <- length(unique(hdata$site))
+#  timePlot(hdata,
+#           "prec",
+#           type = "site",
+#           plot.type = "h",
+#           layout = c(1, nsites),
+#           date.format = "%b\n%Y")
 

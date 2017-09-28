@@ -2,7 +2,7 @@
 Jonatan Tatsch  
 `r Sys.Date()`  
 
-Os arquivos de dados horários das Estações Metorológicas Automáticas (EMA) do 
+Os arquivos de dados horários das Estações Meteorológicas Automáticas (EMA) do 
 INMET são disponibilizados em formato texto (ASCII). É comum em dados 
 armazenados em formato texto, mesmo temporariamente, que algum procedimento de 
 formatação manual seja realizada.
@@ -10,7 +10,7 @@ formatação manual seja realizada.
 A estrutura de armazenamento de dados mais comum em arquivos texto com dados 
 meteorológicos é a retangular, onde as observações ao longo das linhas e as 
 variáveis ao longo das colunas. Eventualmente, os arquivos são editados 
-manualmente e esse padrão pode ser quebrado, mesmo despropositalmente. 
+manualmente e esse padrão pode ser quebrado, mesmo despropositadamente. 
 Então uma da observação (linha) pode não conter os campos de todas as
 variáveis meteorológicas (colunas). 
 
@@ -28,7 +28,7 @@ Dessa forma, cada ano de dados ter-se-á 365 (ou 366) dias/ano $\times$
 24 horas/dia $=$ 8760  (8784) observações.
 
 A seguir mostra-se como usar o pacote `inmetwrangler` para importar os dados
-das EMA do iNMET e diagnosticar onde (arquivos, linhas e colunas) ocorrem estes 
+das EMA do INMET e diagnosticar onde (arquivos, linhas e colunas) ocorrem estes 
 problemas. Esta informação pode servir para verificação dos dados com a agência
 que forneceu os dados, para descartar a hipótese de algum problema na extração 
 dos dados ou na operação manual dos arquivos texto.
@@ -49,13 +49,15 @@ library(inmetwrangler)
 ```
 
 
+
+
 Outros pacotes necessários para reproduzir os exemplos mostrados a seguir:
 
 
 ```r
 library(knitr)
-library(readr)
-library(openair)
+library(tidyverse)
+library(stringr)
 ```
 
 
@@ -76,7 +78,7 @@ list.files(system.file("extdata", package = "inmetwrangler"
 ```
 
 ```
-## [1] "A804.txt" "A805.txt" "A819.txt" "A838.txt" "A852.txt"
+#> [1] "A804.txt" "A805.txt" "A819.txt" "A838.txt" "A852.txt"
 ```
 
 
@@ -89,14 +91,14 @@ system.file("extdata", "A838.txt", package = "inmetwrangler")
 
 
 ```
-## [1] "/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A838.txt"
+#> [1] "/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A838.txt"
 ```
 
 ### Arquivos com cabeçalho variável
 
 Os arquivos de dados horários das EMA tem um cabeçalho que pode ocupar de 2 
 a 4 linhas. Essa variação no formato dos arquivos pode ser devido a forma como
-os dados foram extraídos do banco de dados ou dependente do técnico reponsável 
+os dados foram extraídos do banco de dados ou dependente do técnico responsável 
 pelo banco de dados.
 
 Os arquivos disponibilizados com o pacote são exemplos de arquivos com 
@@ -113,12 +115,12 @@ head(read_lines(ex_file_h4))
 ```
 
 ```
-## [1] "<html><head>"                                                                                                                                                                                                 
-## [2] "<meta http-equiv=\"content-type\" content=\"text/html; charset=windows-1252\"></head><body>Sql"                                                                                                               
-## [3] " - SELECT * FROM cadRema WHERE RemaEstacao='a819'  and RemaData BETWEEN "                                                                                                                                     
-## [4] "'2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora <br><pre>A819 2010 01 01 00 12.3 21 19.3 19.4 19.2 88 89 86 17.3 17.3 17.0 902.5 902.5 902.0 3.4 107 7.3 -2.510 0.0 / //// ///// ///// ="
-## [5] "A819 2010 01 01 01 12.3 21 19.0 19.3 19.0 90 90 87 17.2 17.3 17.1 903.2 903.2 902.5 2.0 115 8.2 -2.320 0.0 / //// ///// ///// ="                                                                              
-## [6] "A819 2010 01 01 02 12.3 20 18.6 19.0 18.6 90 90 89 16.9 17.3 16.9 903.3 903.4 903.2 2.6 127 6.7 -2.433 0.0 / //// ///// ///// ="
+#> [1] "<html><head>"                                                                                                                                                                                                 
+#> [2] "<meta http-equiv=\"content-type\" content=\"text/html; charset=windows-1252\"></head><body>Sql"                                                                                                               
+#> [3] " - SELECT * FROM cadRema WHERE RemaEstacao='a819'  and RemaData BETWEEN "                                                                                                                                     
+#> [4] "'2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora <br><pre>A819 2010 01 01 00 12.3 21 19.3 19.4 19.2 88 89 86 17.3 17.3 17.0 902.5 902.5 902.0 3.4 107 7.3 -2.510 0.0 / //// ///// ///// ="
+#> [5] "A819 2010 01 01 01 12.3 21 19.0 19.3 19.0 90 90 87 17.2 17.3 17.1 903.2 903.2 902.5 2.0 115 8.2 -2.320 0.0 / //// ///// ///// ="                                                                              
+#> [6] "A819 2010 01 01 02 12.3 20 18.6 19.0 18.6 90 90 89 16.9 17.3 16.9 903.3 903.4 903.2 2.6 127 6.7 -2.433 0.0 / //// ///// ///// ="
 ```
 
 - Arquivo com 3 linhas de cabeçalho seguida de uma linha (4ª) em branco
@@ -130,12 +132,12 @@ head(read_lines(ex_file_h3))
 ```
 
 ```
-## [1] "Sql - SELECT * FROM cadRema WHERE RemaEstacao='a804' and RemaData"                                                              
-## [2] "BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY"                                                                                 
-## [3] "RemaEstacao,RemaData,RemaHora"                                                                                                  
-## [4] ""                                                                                                                               
-## [5] "A804 2010 01 01 00 11.7 22 20.2 21.2 20.2 71 72 68 14.9 15.1 14.9 976.2 976.2 975.5 4.6 116 8.1 -3.540 0.0 / //// ///// ///// ="
-## [6] "A804 2010 01 01 01 11.6 20 19.4 20.3 19.3 77 77 71 15.2 15.2 14.9 976.3 976.4 976.2 4.8 105 8.4 -3.540 0.0 / //// ///// ///// ="
+#> [1] "Sql - SELECT * FROM cadRema WHERE RemaEstacao='a804' and RemaData"                                                              
+#> [2] "BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY"                                                                                 
+#> [3] "RemaEstacao,RemaData,RemaHora"                                                                                                  
+#> [4] ""                                                                                                                               
+#> [5] "A804 2010 01 01 00 11.7 22 20.2 21.2 20.2 71 72 68 14.9 15.1 14.9 976.2 976.2 975.5 4.6 116 8.1 -3.540 0.0 / //// ///// ///// ="
+#> [6] "A804 2010 01 01 01 11.6 20 19.4 20.3 19.3 77 77 71 15.2 15.2 14.9 976.3 976.4 976.2 4.8 105 8.4 -3.540 0.0 / //// ///// ///// ="
 ```
 
 - Arquivo com 1 linha de cabeçalho seguida de uma linha (2ª) em branco
@@ -147,12 +149,12 @@ head(read_lines(ex_file_h2))
 ```
 
 ```
-## [1] "Sql - SELECT * FROM cadRema WHERE RemaEstacao='A852' and RemaData BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora "
-## [2] ""                                                                                                                                               
-## [3] "A852 2010 01 01 00 12.5 28 24.5 26.0 24.5 54 54 50 14.6 14.7 14.6 982.7 982.7 982.3 4.4 105 8.3 -3.540 0.0 / //// ///// ///// ="                
-## [4] "A852 2010 01 01 01 12.5 26 23.2 24.5 23.2 60 60 54 15.0 15.0 14.7 983.1 983.2 982.7 5.0 106 9.7 -3.540 0.0 / //// ///// ///// ="                
-## [5] "A852 2010 01 01 02 12.5 25 22.3 23.2 22.3 63 64 60 15.0 15.0 15.0 983.5 983.6 983.2 4.2 103 9.7 -3.540 0.0 / //// ///// ///// ="                
-## [6] "A852 2010 01 01 03 12.5 24 21.9 22.3 21.9 65 65 63 15.1 15.1 14.9 983.5 983.6 983.4 4.6 100 8.8 -3.540 0.0 / //// ///// ///// ="
+#> [1] "Sql - SELECT * FROM cadRema WHERE RemaEstacao='A852' and RemaData BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora "
+#> [2] ""                                                                                                                                               
+#> [3] "A852 2010 01 01 00 12.5 28 24.5 26.0 24.5 54 54 50 14.6 14.7 14.6 982.7 982.7 982.3 4.4 105 8.3 -3.540 0.0 / //// ///// ///// ="                
+#> [4] "A852 2010 01 01 01 12.5 26 23.2 24.5 23.2 60 60 54 15.0 15.0 14.7 983.1 983.2 982.7 5.0 106 9.7 -3.540 0.0 / //// ///// ///// ="                
+#> [5] "A852 2010 01 01 02 12.5 25 22.3 23.2 22.3 63 64 60 15.0 15.0 15.0 983.5 983.6 983.2 4.2 103 9.7 -3.540 0.0 / //// ///// ///// ="                
+#> [6] "A852 2010 01 01 03 12.5 24 21.9 22.3 21.9 65 65 63 15.1 15.1 14.9 983.5 983.6 983.4 4.6 100 8.8 -3.540 0.0 / //// ///// ///// ="
 ```
 
 ## Detectando problemas
@@ -198,14 +200,14 @@ for (i in 1:nrow(A838_problems)) {
 ```
 
 ```
-##  ------------ Problem  1  ------------ 
-## [1] "A838 2011 02 25 15 12.0 34 29.2 ///// ///// 74 /// /// 24.2 ///// ///// 999.3 ////// ////// 0.7 166 //// 831.986 0.0 / //// ///// ///// =" 
-## [2] "A838 2011 02 25 16 12.0 34 28.0 ///// ///// 77 /// /// ="                                                                                  
-## [3] "A838 2011 02 26 13 11.9 25 24.2 ///// ///// 85 /// /// 21.5 ///// ///// 1002.7 ////// ////// 2.6 186 //// 457.911 0.0 / //// ///// ///// ="
-##  ------------ Problem  2  ------------ 
-## [1] "A838 2011 03 01 15 13.1 26 23.5 23.6 21.8 70 81 69 17.7 19.3 17.3 1007.0 1007.3 1007.0 2.6 119 7.5 1509.010 0.0 / //// ///// ///// ="
-## [2] "A838 2011 03 01 16 12.2 28 23.2 ///// ///// 67 /// /// 16.8 ///// ///// 1006.7 ////// ////// //// /// //// 59 ="                     
-## [3] "A838 2011 03 01 17 13.0 30 24.6 25.1 23.2 62 67 59 17.0 17.6 15.9 1006.2 1006.7 1006.2 2.3 110 8.7 2451.034 0.0 / //// ///// ///// ="
+#>  ------------ Problem  1  ------------ 
+#> [1] "A838 2011 02 25 15 12.0 34 29.2 ///// ///// 74 /// /// 24.2 ///// ///// 999.3 ////// ////// 0.7 166 //// 831.986 0.0 / //// ///// ///// =" 
+#> [2] "A838 2011 02 25 16 12.0 34 28.0 ///// ///// 77 /// /// ="                                                                                  
+#> [3] "A838 2011 02 26 13 11.9 25 24.2 ///// ///// 85 /// /// 21.5 ///// ///// 1002.7 ////// ////// 2.6 186 //// 457.911 0.0 / //// ///// ///// ="
+#>  ------------ Problem  2  ------------ 
+#> [1] "A838 2011 03 01 15 13.1 26 23.5 23.6 21.8 70 81 69 17.7 19.3 17.3 1007.0 1007.3 1007.0 2.6 119 7.5 1509.010 0.0 / //// ///// ///// ="
+#> [2] "A838 2011 03 01 16 12.2 28 23.2 ///// ///// 67 /// /// 16.8 ///// ///// 1006.7 ////// ////// //// /// //// 59 ="                     
+#> [3] "A838 2011 03 01 17 13.0 30 24.6 25.1 23.2 62 67 59 17.0 17.6 15.9 1006.2 1006.7 1006.2 2.3 110 8.7 2451.034 0.0 / //// ///// ///// ="
 ```
 
 ### Caso 2: mais variáveis do que o esperado
@@ -218,7 +220,7 @@ myfile
 ```
 
 ```
-## [1] "/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A852.txt"
+#> [1] "/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A852.txt"
 ```
 
 ```r
@@ -253,27 +255,62 @@ kable(A852_problems)
 
 Foram encontradas 18 observações com mais variáveis do que o esperado (29). Essas linhas são consecutivas, desde a linha 10761 no arquivo original até a linha 10778.
 
+### Caso 3: arquivos sem problemas
+
+Quando os arquivos importados não apresentarem problemas a tabela com os 
+problemas estará vazia. Então a função `import_txt_files_inmet` quando usada
+para detectar problemas (`import_txt_files_inmet(..., only.problems = TRUE)`)
+retornará informação somente sobre os arquivos com problemas
+(caso eles os tenham).
+
+
+```r
+txt_files <- list.files(system.file("extdata", 
+                                package = "inmetwrangler"),
+                    full.names = TRUE) 
+txt_files_no_prob <- discard(txt_files, ~str_detect(.x, "A852|A838"))
+# somente arquivos sem problemas estruturais
+basename(txt_files_no_prob)
+```
+
+```
+#> [1] "A804.txt" "A805.txt" "A819.txt"
+```
+
+```r
+probs <- import_txt_files_inmet(txt_files_no_prob, 
+                       verbose = FALSE, 
+                       only.problems = TRUE, 
+                       full.names = FALSE)
+probs
+```
+
+```
+#> # A tibble: 0 x 6
+#> # ... with 6 variables: row <dbl>, row_file <dbl>, col <dbl>,
+#> #   expected <chr>, actual <chr>, file <chr>
+```
+
+```r
+str(probs)
+```
+
+```
+#> Classes 'tbl_df', 'tbl' and 'data.frame':	0 obs. of  6 variables:
+#>  $ row     : num 
+#>  $ row_file: num 
+#>  $ col     : num 
+#>  $ expected: chr 
+#>  $ actual  : chr 
+#>  $ file    : chr
+```
+
 
 ## Importando os arquivos de dados
 
 A função `import_txt_files_inmet()` importa arquivos de dados 
 horários dando conta das diferenças de cabeçalhos dos arquivos e preenche (ou remove) as variáveis de uma observação com campos incompletos (excedentes).
 
-
-```r
-txt_files <- list.files(system.file("extdata", 
-                                package = "inmetwrangler"),
-                    full.names = TRUE)
-txt_files
-```
-
-```
-## [1] "/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A804.txt"
-## [2] "/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A805.txt"
-## [3] "/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A819.txt"
-## [4] "/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A838.txt"
-## [5] "/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A852.txt"
-```
 
 ```r
 # merge data files
