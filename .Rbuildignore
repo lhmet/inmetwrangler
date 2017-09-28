@@ -6,3 +6,6 @@
 ^\.travis\.yml$
 ^data-raw$
 ^release$
+^vignettes/data-problems_files$
+^vignettes/rsconnect$
+^cran-comments\.md$
