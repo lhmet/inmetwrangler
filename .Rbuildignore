@@ -9,3 +9,4 @@
 ^vignettes/data-problems_files$
 ^vignettes/rsconnect$
 ^cran-comments\.md$
+^inst\doc\time-consist-problems.Rmd$
