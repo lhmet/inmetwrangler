@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Jonatan Tatsch" />
+
+<meta name="date" content="2017-11-17" />
+
+<title>Diagnóstico de problemas na estrutura dos dados de 2010-2011.</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Diagnóstico de problemas na estrutura dos dados de 2010-2011.</h1>
+<h4 class="author"><em>Jonatan Tatsch</em></h4>
+<h4 class="date"><em>2017-11-17</em></h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#pre-requisitos">Pré-requisitos</a></li>
+<li><a href="#dados">Dados</a><ul>
+<li><a href="#arquivos-com-cabecalho-variavel">Arquivos com cabeçalho variável</a></li>
+</ul></li>
+<li><a href="#detectando-problemas">Detectando problemas</a><ul>
+<li><a href="#caso-1-menos-variaveis-do-que-o-esperado">Caso 1: menos variáveis do que o esperado</a></li>
+<li><a href="#caso-2-mais-variaveis-do-que-o-esperado">Caso 2: mais variáveis do que o esperado</a></li>
+<li><a href="#caso-3-arquivos-sem-problemas">Caso 3: arquivos sem problemas</a></li>
+</ul></li>
+<li><a href="#importando-os-arquivos-de-dados">Importando os arquivos de dados</a></li>
+</ul>
+</div>
+
+<p>Os arquivos de dados horários das Estações Meteorológicas Automáticas (EMA) do INMET obtidas através do <a href="seoma.rs@inmet.gov.br" class="uri">seoma.rs@inmet.gov.br</a> para os estados do Sul do Brasil são disponibilizados em formato texto (ASCII). É comum em dados armazenados em formato texto, mesmo temporariamente, que algum procedimento de formatação manual seja realizada.</p>
+<p>Os dados são armazenados em uma estrutura retangular, com as observações ao longo das linhas e as variáveis ao longo das colunas. Eventualmente, os arquivos podem tem sido editados manualmente e esse padrão pode ser quebrado, mesmo despropositadamente. Então uma da observação (linha) pode não conter os campos de todas as variáveis meteorológicas (colunas).</p>
+<p>Analogamente, podem ocorrer descontinuidades temporais nas observações. Por exemplo, a observação na linha seguinte ao horário <code>2000-01-01 16:00:00</code> pode ser referente ao horário <code>2000-01-01 19:00:00</code>, ou seja há 2 horários faltantes entre essas 2 observações. Logo os dados não estão regularmente espaçados no tempo.</p>
+<p>Para garantir um conjunto de dados temporalmente consistente os horários faltantes devem explicitamente inseridos na variável temporal adequada (e.g. <code>date</code>) e as variáveis meteorológicas (colunas) preenchidas com um valor definido para identificar dados faltantes (e.g: <code>NA</code>, <code>-9999</code>). Dessa forma, cada ano de dados ter-se-á 365 (ou 366) dias/ano <span class="math inline">\(\times\)</span> 24 horas/dia <span class="math inline">\(=\)</span> 8760 (8784) observações.</p>
+<p>A seguir mostra-se como usar o pacote <code>inmetwrangler</code> para importar os dados das EMA do INMET e diagnosticar onde (arquivos, linhas e colunas) ocorrem estes problemas. Esta informação pode servir para verificação dos dados com a agência que forneceu os dados, para descartar a hipótese de algum problema na extração dos dados ou na operação manual dos arquivos texto.</p>
+<div id="pre-requisitos" class="section level2">
+<h2>Pré-requisitos</h2>
+<p>Instalação do pacote <code>inmetwrangler</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
+<span class="kw">install_github</span>(<span class="st">&quot;lhmet/inmetwrangler&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(inmetwrangler)</code></pre></div>
+<p>Outros pacotes necessários para reproduzir os exemplos mostrados a seguir:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(stringr)</code></pre></div>
+</div>
+<div id="dados" class="section level2">
+<h2>Dados</h2>
+<p>Os dados dos exemplos abaixo são disponibilizados com o próprio pacote <code>inmetwrangler</code>, no diretório de instalação do pacote. Os arquivos disponibilizados são:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#.libPaths()</span>
+<span class="co"># arquivos disponíveis</span>
+<span class="kw">list.files</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>
+                       <span class="co">#, full.names = TRUE)</span>
+))</code></pre></div>
+<pre><code>#&gt; [1] &quot;A804.txt&quot; &quot;A805.txt&quot; &quot;A819.txt&quot; &quot;A838.txt&quot; &quot;A852.txt&quot;</code></pre>
+<p>O caminho para um arquivo de dados pode ser obtido da seguinte forma:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A838.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)</code></pre></div>
+<pre><code>#&gt; [1] &quot;/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A838.txt&quot;</code></pre>
+<div id="arquivos-com-cabecalho-variavel" class="section level3">
+<h3>Arquivos com cabeçalho variável</h3>
+<p>Os arquivos de dados horários das EMA tem um cabeçalho que pode ocupar de 2 a 4 linhas. Essa variação no formato dos arquivos pode ser devido a forma como os dados foram extraídos do banco de dados ou dependente do técnico responsável pelo banco de dados.</p>
+<p>Os arquivos disponibilizados com o pacote são exemplos de arquivos com diferentes cabeçalhos<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
+<ul>
+<li>Arquivo com 4 linhas de cabeçalho sendo a 1ª observação apendada na última linha do cabeçalho</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ex_file_h4 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A819.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)
+<span class="kw">head</span>(<span class="kw">read_lines</span>(ex_file_h4))</code></pre></div>
+<pre><code>#&gt; [1] &quot;&lt;html&gt;&lt;head&gt;&quot;                                                                                                                                                                                                 
+#&gt; [2] &quot;&lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;text/html; charset=windows-1252\&quot;&gt;&lt;/head&gt;&lt;body&gt;Sql&quot;                                                                                                               
+#&gt; [3] &quot; - SELECT * FROM cadRema WHERE RemaEstacao='a819'  and RemaData BETWEEN &quot;                                                                                                                                     
+#&gt; [4] &quot;'2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora &lt;br&gt;&lt;pre&gt;A819 2010 01 01 00 12.3 21 19.3 19.4 19.2 88 89 86 17.3 17.3 17.0 902.5 902.5 902.0 3.4 107 7.3 -2.510 0.0 / //// ///// ///// =&quot;
+#&gt; [5] &quot;A819 2010 01 01 01 12.3 21 19.0 19.3 19.0 90 90 87 17.2 17.3 17.1 903.2 903.2 902.5 2.0 115 8.2 -2.320 0.0 / //// ///// ///// =&quot;                                                                              
+#&gt; [6] &quot;A819 2010 01 01 02 12.3 20 18.6 19.0 18.6 90 90 89 16.9 17.3 16.9 903.3 903.4 903.2 2.6 127 6.7 -2.433 0.0 / //// ///// ///// =&quot;</code></pre>
+<ul>
+<li>Arquivo com 3 linhas de cabeçalho seguida de uma linha (4ª) em branco</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ex_file_h3 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A804.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)
+<span class="kw">head</span>(<span class="kw">read_lines</span>(ex_file_h3))</code></pre></div>
+<pre><code>#&gt; [1] &quot;Sql - SELECT * FROM cadRema WHERE RemaEstacao='a804' and RemaData&quot;                                                              
+#&gt; [2] &quot;BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY&quot;                                                                                 
+#&gt; [3] &quot;RemaEstacao,RemaData,RemaHora&quot;                                                                                                  
+#&gt; [4] &quot;&quot;                                                                                                                               
+#&gt; [5] &quot;A804 2010 01 01 00 11.7 22 20.2 21.2 20.2 71 72 68 14.9 15.1 14.9 976.2 976.2 975.5 4.6 116 8.1 -3.540 0.0 / //// ///// ///// =&quot;
+#&gt; [6] &quot;A804 2010 01 01 01 11.6 20 19.4 20.3 19.3 77 77 71 15.2 15.2 14.9 976.3 976.4 976.2 4.8 105 8.4 -3.540 0.0 / //// ///// ///// =&quot;</code></pre>
+<ul>
+<li>Arquivo com 1 linha de cabeçalho seguida de uma linha (2ª) em branco</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ex_file_h2 &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A852.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)
+<span class="kw">head</span>(<span class="kw">read_lines</span>(ex_file_h2))</code></pre></div>
+<pre><code>#&gt; [1] &quot;Sql - SELECT * FROM cadRema WHERE RemaEstacao='A852' and RemaData BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora &quot;
+#&gt; [2] &quot;&quot;                                                                                                                                               
+#&gt; [3] &quot;A852 2010 01 01 00 12.5 28 24.5 26.0 24.5 54 54 50 14.6 14.7 14.6 982.7 982.7 982.3 4.4 105 8.3 -3.540 0.0 / //// ///// ///// =&quot;                
+#&gt; [4] &quot;A852 2010 01 01 01 12.5 26 23.2 24.5 23.2 60 60 54 15.0 15.0 14.7 983.1 983.2 982.7 5.0 106 9.7 -3.540 0.0 / //// ///// ///// =&quot;                
+#&gt; [5] &quot;A852 2010 01 01 02 12.5 25 22.3 23.2 22.3 63 64 60 15.0 15.0 15.0 983.5 983.6 983.2 4.2 103 9.7 -3.540 0.0 / //// ///// ///// =&quot;                
+#&gt; [6] &quot;A852 2010 01 01 03 12.5 24 21.9 22.3 21.9 65 65 63 15.1 15.1 14.9 983.5 983.6 983.4 4.6 100 8.8 -3.540 0.0 / //// ///// ///// =&quot;</code></pre>
+</div>
+</div>
+<div id="detectando-problemas" class="section level2">
+<h2>Detectando problemas</h2>
+<p>A função <code>import_txt_files_inmet()</code> além de importar os arquivos de dados horários considerando os diferentes cabeçalhos dos arquivos, também é usada para diagnosticar problemas na estrutura dos dados.</p>
+<div id="caso-1-menos-variaveis-do-que-o-esperado" class="section level3">
+<h3>Caso 1: menos variáveis do que o esperado</h3>
+<p>Conforme <a href="http://www.inmet.gov.br/portal/css/content/topo_iframe/pdf/Nota_Tecnica-Rede_estacoes_INMET.pdf">nota técnica do INMET</a> os arquivos devem conter 23 variáveis meteorológicas (especificadas na seção IMPORTANDO DADOS), uma com identificador da EMA e 4 com informação do ano, mês, dia e hora (UTC); totalizando 28 colunas. Mas nos arquivos ASCII fornecidos há uma coluna adicional com o símbolo “=”. Então o total esperado de colunas nos arquivos texto é de 29 colunas<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A838.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)
+A838_problems &lt;-<span class="st"> </span><span class="kw">import_txt_files_inmet</span>(<span class="dt">files =</span> myfile, 
+                                        <span class="dt">verbose =</span> <span class="ot">FALSE</span>,
+                                        <span class="dt">only.problems =</span> <span class="ot">TRUE</span>, 
+                                        <span class="dt">full.names =</span> <span class="ot">TRUE</span>)
+<span class="kw">kable</span>(A838_problems)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">row</th>
+<th align="left">col</th>
+<th align="left">expected</th>
+<th align="left">actual</th>
+<th align="left">file</th>
+<th align="right">row_file</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">9712</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">14 columns</td>
+<td align="left">/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A838.txt</td>
+<td align="right">9714</td>
+</tr>
+<tr class="even">
+<td align="right">9741</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">24 columns</td>
+<td align="left">/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A838.txt</td>
+<td align="right">9743</td>
+</tr>
+</tbody>
+</table>
+<p>A tabela de dados mostrada é auto-explicativa, mas é importante notar a diferença entre <code>row</code> (linha nos dados importados) e <code>row_file</code> (linha no arquivo ASCII). Foram encontradas 2 observações com menor n° de variáveis que o esperado. Esperavam-se 29 variáveis para a observação da linha 9712 (9741), entretanto, o arquivo contém apenas 14 (24) variáveis naquela linha.</p>
+<p>Para verificar no arquivo original é possível abri-lo em um editor de texto, ou executar os comandos abaixo em que importamos o arquivo da EMA de interesse (<code>myfile</code>) e filtrarmos os dados entre uma linha acima (<code>ir - 1</code>) e uma abaixo (<code>ir + 1</code>) da linha com problema (<code>ir</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(A838_problems)) {
+  <span class="kw">cat</span>(<span class="st">&quot; ------------&quot;</span>, <span class="st">&quot;Problem &quot;</span>, i, <span class="st">&quot; ------------&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
+  ir &lt;-<span class="st"> </span>A838_problems<span class="op">$</span>row_file[i]
+  <span class="kw">print</span>(<span class="kw">read_lines</span>(<span class="dt">file =</span> myfile)[(ir <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(ir <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)])
+}</code></pre></div>
+<pre><code>#&gt;  ------------ Problem  1  ------------ 
+#&gt; [1] &quot;A838 2011 02 25 15 12.0 34 29.2 ///// ///// 74 /// /// 24.2 ///// ///// 999.3 ////// ////// 0.7 166 //// 831.986 0.0 / //// ///// ///// =&quot; 
+#&gt; [2] &quot;A838 2011 02 25 16 12.0 34 28.0 ///// ///// 77 /// /// =&quot;                                                                                  
+#&gt; [3] &quot;A838 2011 02 26 13 11.9 25 24.2 ///// ///// 85 /// /// 21.5 ///// ///// 1002.7 ////// ////// 2.6 186 //// 457.911 0.0 / //// ///// ///// =&quot;
+#&gt;  ------------ Problem  2  ------------ 
+#&gt; [1] &quot;A838 2011 03 01 15 13.1 26 23.5 23.6 21.8 70 81 69 17.7 19.3 17.3 1007.0 1007.3 1007.0 2.6 119 7.5 1509.010 0.0 / //// ///// ///// =&quot;
+#&gt; [2] &quot;A838 2011 03 01 16 12.2 28 23.2 ///// ///// 67 /// /// 16.8 ///// ///// 1006.7 ////// ////// //// /// //// 59 =&quot;                     
+#&gt; [3] &quot;A838 2011 03 01 17 13.0 30 24.6 25.1 23.2 62 67 59 17.0 17.6 15.9 1006.2 1006.7 1006.2 2.3 110 8.7 2451.034 0.0 / //// ///// ///// =&quot;</code></pre>
+</div>
+<div id="caso-2-mais-variaveis-do-que-o-esperado" class="section level3">
+<h3>Caso 2: mais variáveis do que o esperado</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A852.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)
+myfile</code></pre></div>
+<pre><code>#&gt; [1] &quot;/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A852.txt&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A852_problems &lt;-<span class="st"> </span><span class="kw">import_txt_files_inmet</span>(<span class="dt">files =</span> myfile, 
+                                        <span class="dt">verbose =</span> <span class="ot">FALSE</span>,
+                                        <span class="dt">only.problems =</span> <span class="ot">TRUE</span>)
+<span class="kw">kable</span>(A852_problems)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">row</th>
+<th align="left">col</th>
+<th align="left">expected</th>
+<th align="left">actual</th>
+<th align="left">file</th>
+<th align="right">row_file</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">10759</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10761</td>
+</tr>
+<tr class="even">
+<td align="right">10760</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10762</td>
+</tr>
+<tr class="odd">
+<td align="right">10761</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10763</td>
+</tr>
+<tr class="even">
+<td align="right">10762</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10764</td>
+</tr>
+<tr class="odd">
+<td align="right">10763</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10765</td>
+</tr>
+<tr class="even">
+<td align="right">10764</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10766</td>
+</tr>
+<tr class="odd">
+<td align="right">10765</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10767</td>
+</tr>
+<tr class="even">
+<td align="right">10766</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10768</td>
+</tr>
+<tr class="odd">
+<td align="right">10767</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10769</td>
+</tr>
+<tr class="even">
+<td align="right">10768</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10770</td>
+</tr>
+<tr class="odd">
+<td align="right">10769</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10771</td>
+</tr>
+<tr class="even">
+<td align="right">10770</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10772</td>
+</tr>
+<tr class="odd">
+<td align="right">10771</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10773</td>
+</tr>
+<tr class="even">
+<td align="right">10772</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10774</td>
+</tr>
+<tr class="odd">
+<td align="right">10773</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10775</td>
+</tr>
+<tr class="even">
+<td align="right">10774</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10776</td>
+</tr>
+<tr class="odd">
+<td align="right">10775</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10777</td>
+</tr>
+<tr class="even">
+<td align="right">10776</td>
+<td align="left">NA</td>
+<td align="left">29 columns</td>
+<td align="left">34 columns</td>
+<td align="left">A852.txt</td>
+<td align="right">10778</td>
+</tr>
+</tbody>
+</table>
+<p>Foram encontradas 18 observações com mais variáveis do que o esperado (29). Essas linhas são consecutivas, desde a linha 10761 no arquivo original até a linha 10778.</p>
+</div>
+<div id="caso-3-arquivos-sem-problemas" class="section level3">
+<h3>Caso 3: arquivos sem problemas</h3>
+<p>Quando os arquivos importados não apresentarem problemas a tabela com os problemas estará vazia. Então a função <code>import_txt_files_inmet</code> quando usada para detectar problemas (<code>import_txt_files_inmet(..., only.problems = TRUE)</code>) retornará informação somente sobre os arquivos com problemas (caso eles os tenham).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">txt_files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, 
+                                <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>),
+                    <span class="dt">full.names =</span> <span class="ot">TRUE</span>) 
+txt_files_no_prob &lt;-<span class="st"> </span><span class="kw">discard</span>(txt_files, <span class="op">~</span><span class="kw">str_detect</span>(.x, <span class="st">&quot;A852|A838&quot;</span>))
+<span class="co"># somente arquivos sem problemas estruturais</span>
+<span class="kw">basename</span>(txt_files_no_prob)</code></pre></div>
+<pre><code>#&gt; [1] &quot;A804.txt&quot; &quot;A805.txt&quot; &quot;A819.txt&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">probs &lt;-<span class="st"> </span><span class="kw">import_txt_files_inmet</span>(txt_files_no_prob, 
+                       <span class="dt">verbose =</span> <span class="ot">FALSE</span>, 
+                       <span class="dt">only.problems =</span> <span class="ot">TRUE</span>, 
+                       <span class="dt">full.names =</span> <span class="ot">FALSE</span>)
+probs</code></pre></div>
+<pre><code>#&gt; # A tibble: 0 x 6
+#&gt; # ... with 6 variables: row &lt;dbl&gt;, row_file &lt;dbl&gt;, col &lt;dbl&gt;,
+#&gt; #   expected &lt;chr&gt;, actual &lt;chr&gt;, file &lt;chr&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(probs)</code></pre></div>
+<pre><code>#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    0 obs. of  6 variables:
+#&gt;  $ row     : num 
+#&gt;  $ row_file: num 
+#&gt;  $ col     : num 
+#&gt;  $ expected: chr 
+#&gt;  $ actual  : chr 
+#&gt;  $ file    : chr</code></pre>
+</div>
+</div>
+<div id="importando-os-arquivos-de-dados" class="section level2">
+<h2>Importando os arquivos de dados</h2>
+<p>A função <code>import_txt_files_inmet()</code> importa arquivos de dados horários dando conta das diferenças de cabeçalhos dos arquivos e preenche (ou remove) as variáveis de uma observação com campos incompletos (excedentes).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># merge data files</span>
+hdata &lt;-<span class="st"> </span><span class="kw">import_txt_files_inmet</span>(<span class="dt">files =</span> txt_files, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
+<span class="kw">kable</span>(<span class="kw">head</span>(hdata[, <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">site</th>
+<th align="left">date</th>
+<th align="right">tens_bat</th>
+<th align="right">temp_cpu</th>
+<th align="right">tair_inst</th>
+<th align="right">tair_max</th>
+<th align="right">tair_min</th>
+<th align="right">rh_inst</th>
+<th align="right">rh_max</th>
+<th align="right">rh_min</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">A804</td>
+<td align="left">2010-01-01 00:00:00</td>
+<td align="right">11.7</td>
+<td align="right">22</td>
+<td align="right">20.2</td>
+<td align="right">21.2</td>
+<td align="right">20.2</td>
+<td align="right">71</td>
+<td align="right">72</td>
+<td align="right">68</td>
+</tr>
+<tr class="even">
+<td align="left">A804</td>
+<td align="left">2010-01-01 01:00:00</td>
+<td align="right">11.6</td>
+<td align="right">20</td>
+<td align="right">19.4</td>
+<td align="right">20.3</td>
+<td align="right">19.3</td>
+<td align="right">77</td>
+<td align="right">77</td>
+<td align="right">71</td>
+</tr>
+<tr class="odd">
+<td align="left">A804</td>
+<td align="left">2010-01-01 02:00:00</td>
+<td align="right">11.6</td>
+<td align="right">19</td>
+<td align="right">18.8</td>
+<td align="right">19.4</td>
+<td align="right">18.8</td>
+<td align="right">79</td>
+<td align="right">79</td>
+<td align="right">77</td>
+</tr>
+<tr class="even">
+<td align="left">A804</td>
+<td align="left">2010-01-01 03:00:00</td>
+<td align="right">11.6</td>
+<td align="right">19</td>
+<td align="right">18.0</td>
+<td align="right">18.8</td>
+<td align="right">18.0</td>
+<td align="right">77</td>
+<td align="right">79</td>
+<td align="right">76</td>
+</tr>
+<tr class="odd">
+<td align="left">A804</td>
+<td align="left">2010-01-01 04:00:00</td>
+<td align="right">11.6</td>
+<td align="right">18</td>
+<td align="right">16.6</td>
+<td align="right">18.0</td>
+<td align="right">16.6</td>
+<td align="right">77</td>
+<td align="right">78</td>
+<td align="right">76</td>
+</tr>
+<tr class="even">
+<td align="left">A804</td>
+<td align="left">2010-01-01 05:00:00</td>
+<td align="right">11.5</td>
+<td align="right">17</td>
+<td align="right">15.9</td>
+<td align="right">16.6</td>
+<td align="right">15.9</td>
+<td align="right">75</td>
+<td align="right">77</td>
+<td align="right">74</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">tail</span>(hdata[, <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">site</th>
+<th align="left">date</th>
+<th align="right">tens_bat</th>
+<th align="right">temp_cpu</th>
+<th align="right">tair_inst</th>
+<th align="right">tair_max</th>
+<th align="right">tair_min</th>
+<th align="right">rh_inst</th>
+<th align="right">rh_max</th>
+<th align="right">rh_min</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">A852</td>
+<td align="left">2011-12-31 18:00:00</td>
+<td align="right">13.2</td>
+<td align="right">34</td>
+<td align="right">26.8</td>
+<td align="right">32.1</td>
+<td align="right">26.8</td>
+<td align="right">51</td>
+<td align="right">51</td>
+<td align="right">38</td>
+</tr>
+<tr class="even">
+<td align="left">A852</td>
+<td align="left">2011-12-31 19:00:00</td>
+<td align="right">13.4</td>
+<td align="right">32</td>
+<td align="right">29.9</td>
+<td align="right">29.9</td>
+<td align="right">26.3</td>
+<td align="right">44</td>
+<td align="right">55</td>
+<td align="right">43</td>
+</tr>
+<tr class="odd">
+<td align="left">A852</td>
+<td align="left">2011-12-31 20:00:00</td>
+<td align="right">13.5</td>
+<td align="right">32</td>
+<td align="right">26.3</td>
+<td align="right">30.4</td>
+<td align="right">25.7</td>
+<td align="right">54</td>
+<td align="right">58</td>
+<td align="right">39</td>
+</tr>
+<tr class="even">
+<td align="left">A852</td>
+<td align="left">2011-12-31 21:00:00</td>
+<td align="right">12.6</td>
+<td align="right">31</td>
+<td align="right">25.3</td>
+<td align="right">26.9</td>
+<td align="right">25.3</td>
+<td align="right">59</td>
+<td align="right">60</td>
+<td align="right">53</td>
+</tr>
+<tr class="odd">
+<td align="left">A852</td>
+<td align="left">2011-12-31 22:00:00</td>
+<td align="right">12.6</td>
+<td align="right">29</td>
+<td align="right">24.0</td>
+<td align="right">25.8</td>
+<td align="right">24.0</td>
+<td align="right">67</td>
+<td align="right">67</td>
+<td align="right">60</td>
+</tr>
+<tr class="even">
+<td align="left">A852</td>
+<td align="left">2011-12-31 23:00:00</td>
+<td align="right">12.5</td>
+<td align="right">27</td>
+<td align="right">23.2</td>
+<td align="right">24.4</td>
+<td align="right">23.1</td>
+<td align="right">66</td>
+<td align="right">69</td>
+<td align="right">64</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>O cabeçalho inclui o comando <code>SQL</code> usado para extração dos dados a partir do banco de dados.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>A coluna excedente é desconsiderada na saída da função <code>import_txt_files_inmet()</code>, mas para diagnóstico de problemas ela é considerada.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
