@@ -7,14 +7,12 @@ Depends: R (>= 3.4.1)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: magrittr,
-    stringr,
-    dplyr,
-    purrr,
-    readr,
-    tibble
+Imports: magrittr, stringr, dplyr, purrr, readr, tibble
 RoxygenNote: 6.0.1
-Suggests: knitr,
-    rmarkdown,
-    tidyverse
+Suggests: knitr, rmarkdown, tidyverse
 VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2017-09-28 15:11:09 UTC; hidrometeorologista
+Author: Jonatan Tatsch [aut, cre]
+Maintainer: Jonatan Tatsch <jdtatsch@gmail.com>
+Built: R 3.4.1; ; 2017-09-28 15:14:01 UTC; unix

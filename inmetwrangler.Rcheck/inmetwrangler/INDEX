@@ -1,0 +1,6 @@
+import_txt_files_inmet
+                        Import raw data files of automatic stations
+inmetrwrangler          inmetrwrangler: A package to wrangle data from
+                        INMET's stations.
+read_txt_file_inmet     Read ASCII data file of INMET's automatic
+                        weather stations

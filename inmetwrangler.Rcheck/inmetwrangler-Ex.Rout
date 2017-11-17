@@ -1,0 +1,90 @@
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "inmetwrangler"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('inmetwrangler')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("import_txt_files_inmet")
+> ### * import_txt_files_inmet
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: import_txt_files_inmet
+> ### Title: Import raw data files of automatic stations
+> ### Aliases: import_txt_files_inmet
+> 
+> ### ** Examples
+> 
+> 
+> library(dplyr); library(purrr); library(stringr); library(readr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> # missing columns problem example
+> myfile <- system.file("extdata", "A838.txt", package = "inmetwrangler")
+> myfile
+[1] "/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inmetwrangler.Rcheck/inmetwrangler/extdata/A838.txt"
+>  A838_problems <- import_txt_files_inmet(files = myfile, 
++                                          verbose = TRUE, 
++                                          only.problems = TRUE)
+-------------------------------------------
+/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inmetwrangler.Rcheck/inmetwrangler/extdata/A838.txt
+AWS ID from header: A838
+Warning: 2 parsing failures.
+row # A tibble: 2 x 5 col     row   col   expected     actual         file expected   <int> <chr>      <chr>      <chr>        <chr> actual 1  9712  <NA> 29 columns 14 columns literal data file 2  9741  <NA> 29 columns 24 columns literal data
+
+>  A838_data <- import_txt_files_inmet(files = myfile, 
++                                      verbose = TRUE, 
++                                      only.problems = FALSE)
+-------------------------------------------
+/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inmetwrangler.Rcheck/inmetwrangler/extdata/A838.txt
+AWS ID from header: A838
+Warning: 2 parsing failures.
+row # A tibble: 2 x 5 col     row   col   expected     actual         file expected   <int> <chr>      <chr>      <chr>        <chr> actual 1  9712  <NA> 29 columns 14 columns literal data file 2  9741  <NA> 29 columns 24 columns literal data
+
+> #looking at rows
+> for(irow in A838_problems$row) read_lines(myfile, skip = irow-2, n_max = irow+2)
+> # View(slice(A838_data, A838_problems$row)) #  columns filled with NAs
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  2.136 0.036 2.186 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
