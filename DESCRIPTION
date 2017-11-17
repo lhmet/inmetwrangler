@@ -16,5 +16,8 @@ Imports: magrittr,
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,
-    tidyverse
+    tidyverse,
+    devtools
 VignetteBuilder: knitr
+URL: https://github.com/lhmet/inmetwrangler
+BugReports: https://github.com/lhmet/inmetwrangler/issues
