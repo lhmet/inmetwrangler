@@ -24,7 +24,7 @@ read_txt_file_inmet <- function(.file,
                                 .only.problems = FALSE,
                                 .full.names = FALSE){
   
-  # .file <- "inst/extdata/A805.txt"; .verbose = TRUE; .only.problems = TRUE
+  # .file <- "inst/extdata/A805.txt"; .verbose = TRUE; .only.problems = FALSE
   # .file <- "inst/extdata/A838.txt"; .verbose = TRUE; .only.problems = TRUE
   # .file <- "inst/extdata/A803.txt"; .verbose = TRUE; .only.problems = TRUE
   # .file <- "inst/extdata/A852.txt"; .verbose = TRUE; .only.problems = TRUE
@@ -58,7 +58,7 @@ read_txt_file_inmet <- function(.file,
   
   # rows limits to extract data
   row_limits <- all_lines %>%
-    stringr::str_detect("pre>") %>%
+    stringr::str_detect(., pattern = "pre>") %>%
     #str_detect(., "[A-Za-z]{1}[0-9]{3,4}") %>%
     which() # %>%range()
   
