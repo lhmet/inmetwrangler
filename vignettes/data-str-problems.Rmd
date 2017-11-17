@@ -14,25 +14,11 @@ vignette: >
 ---
 
 Os arquivos de dados horários das Estações Meteorológicas Automáticas (EMA) do 
-INMET obtidas através do [seoma.rs@inmet.gov.br](seoma.rs@inmet.gov.br)  para os estados do Sul do Brasil são disponibilizados em formato texto (ASCII). É comum em dados 
+INMET obtidos através do [seoma.rs@inmet.gov.br](seoma.rs@inmet.gov.br)  para os estados do Sul do Brasil são disponibilizados em formato texto (ASCII). É comum em dados 
 armazenados em formato texto, mesmo temporariamente, que algum procedimento de 
 formatação manual seja realizada.
 
 Os dados são armazenados em uma estrutura retangular, com as observações ao longo das linhas e as variáveis ao longo das colunas. Eventualmente, os arquivos podem tem sido editados manualmente e esse padrão pode ser quebrado, mesmo despropositadamente. Então uma da observação (linha) pode não conter os campos de todas as variáveis meteorológicas (colunas).
-
-
-Analogamente, podem ocorrer descontinuidades temporais nas observações. 
-Por exemplo, a observação na linha seguinte ao horário `2000-01-01 16:00:00` 
-pode ser referente ao horário `2000-01-01 19:00:00`, ou seja há 2 horários
-faltantes entre essas 2 observações. Logo os dados não estão regularmente 
-espaçados no tempo.
-
-Para garantir um conjunto de dados temporalmente consistente
-os horários faltantes devem explicitamente inseridos na variável temporal 
-adequada (e.g. `date`) e as variáveis meteorológicas (colunas) preenchidas com um valor definido para identificar dados faltantes (e.g: `NA`, `-9999`). 
-Dessa forma, cada ano de dados ter-se-á 365 (ou 366) dias/ano $\times$ 
-24 horas/dia $=$ `r 365*24`  (`r 366*24`) observações.
-
 
 A seguir mostra-se como usar o pacote `inmetwrangler` para importar os dados
 das EMA do INMET e diagnosticar onde (arquivos, linhas e colunas) ocorrem estes problemas. Esta informação pode servir para verificação dos dados com a agência que forneceu os dados, para descartar a hipótese de algum problema na extração dos dados ou na operação manual dos arquivos texto.
