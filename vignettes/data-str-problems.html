@@ -85,19 +85,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#caso-3-arquivos-sem-problemas">Caso 3: arquivos sem problemas</a></li>
 </ul></li>
 <li><a href="#importando-os-arquivos-de-dados">Importando os arquivos de dados</a></li>
+<li><a href="#informacoes-da-sessao">Informações da sessão</a></li>
 </ul>
 </div>
 
-<p>Os arquivos de dados horários das Estações Meteorológicas Automáticas (EMA) do INMET obtidas através do <a href="seoma.rs@inmet.gov.br" class="uri">seoma.rs@inmet.gov.br</a> para os estados do Sul do Brasil são disponibilizados em formato texto (ASCII). É comum em dados armazenados em formato texto, mesmo temporariamente, que algum procedimento de formatação manual seja realizada.</p>
-<p>Os dados são armazenados em uma estrutura retangular, com as observações ao longo das linhas e as variáveis ao longo das colunas. Eventualmente, os arquivos podem tem sido editados manualmente e esse padrão pode ser quebrado, mesmo despropositadamente. Então uma da observação (linha) pode não conter os campos de todas as variáveis meteorológicas (colunas).</p>
-<p>Analogamente, podem ocorrer descontinuidades temporais nas observações. Por exemplo, a observação na linha seguinte ao horário <code>2000-01-01 16:00:00</code> pode ser referente ao horário <code>2000-01-01 19:00:00</code>, ou seja há 2 horários faltantes entre essas 2 observações. Logo os dados não estão regularmente espaçados no tempo.</p>
-<p>Para garantir um conjunto de dados temporalmente consistente os horários faltantes devem explicitamente inseridos na variável temporal adequada (e.g. <code>date</code>) e as variáveis meteorológicas (colunas) preenchidas com um valor definido para identificar dados faltantes (e.g: <code>NA</code>, <code>-9999</code>). Dessa forma, cada ano de dados ter-se-á 365 (ou 366) dias/ano <span class="math inline">\(\times\)</span> 24 horas/dia <span class="math inline">\(=\)</span> 8760 (8784) observações.</p>
+<p>Os arquivos de dados horários das Estações Meteorológicas Automáticas (EMA) do INMET obtidos através do <a href="seoma.rs@inmet.gov.br" class="uri">seoma.rs@inmet.gov.br</a> para os estados do Sul do Brasil são disponibilizados em formato texto (ASCII).</p>
+<p>Os dados são armazenados em uma estrutura retangular, com as observações ao longo das linhas e as variáveis ao longo das colunas. Eventualmente, os arquivos podem tem sido editados manualmente e esse padrão pode ser quebrado. Então uma da observação (linha) pode não conter os campos de todas as variáveis meteorológicas (colunas).</p>
 <p>A seguir mostra-se como usar o pacote <code>inmetwrangler</code> para importar os dados das EMA do INMET e diagnosticar onde (arquivos, linhas e colunas) ocorrem estes problemas. Esta informação pode servir para verificação dos dados com a agência que forneceu os dados, para descartar a hipótese de algum problema na extração dos dados ou na operação manual dos arquivos texto.</p>
 <div id="pre-requisitos" class="section level2">
 <h2>Pré-requisitos</h2>
 <p>Instalação do pacote <code>inmetwrangler</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
-<span class="kw">install_github</span>(<span class="st">&quot;lhmet/inmetwrangler&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install_github</span>(<span class="st">&quot;lhmet/inmetwrangler&quot;</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(inmetwrangler)</code></pre></div>
 <p>Outros pacotes necessários para reproduzir os exemplos mostrados a seguir:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
@@ -109,10 +108,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Os dados dos exemplos abaixo são disponibilizados com o próprio pacote <code>inmetwrangler</code>, no diretório de instalação do pacote. Os arquivos disponibilizados são:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#.libPaths()</span>
 <span class="co"># arquivos disponíveis</span>
-<span class="kw">list.files</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>
-                       <span class="co">#, full.names = TRUE)</span>
-))</code></pre></div>
+<span class="kw">list.files</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>))</code></pre></div>
 <pre><code>#&gt; [1] &quot;A804.txt&quot; &quot;A805.txt&quot; &quot;A819.txt&quot; &quot;A838.txt&quot; &quot;A852.txt&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">                       <span class="co">#, full.names = TRUE)</span></code></pre></div>
 <p>O caminho para um arquivo de dados pode ser obtido da seguinte forma:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;A838.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;inmetwrangler&quot;</span>)</code></pre></div>
 <pre><code>#&gt; [1] &quot;/home/hidrometeorologista/Dropbox/github/my_reps/lhmet/inmetwrangler/inst/extdata/A838.txt&quot;</code></pre>
@@ -199,7 +197,7 @@ A838_problems &lt;-<span class="st"> </span><span class="kw">import_txt_files_in
 </table>
 <p>A tabela de dados mostrada é auto-explicativa, mas é importante notar a diferença entre <code>row</code> (linha nos dados importados) e <code>row_file</code> (linha no arquivo ASCII). Foram encontradas 2 observações com menor n° de variáveis que o esperado. Esperavam-se 29 variáveis para a observação da linha 9712 (9741), entretanto, o arquivo contém apenas 14 (24) variáveis naquela linha.</p>
 <p>Para verificar no arquivo original é possível abri-lo em um editor de texto, ou executar os comandos abaixo em que importamos o arquivo da EMA de interesse (<code>myfile</code>) e filtrarmos os dados entre uma linha acima (<code>ir - 1</code>) e uma abaixo (<code>ir + 1</code>) da linha com problema (<code>ir</code>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(A838_problems)) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(A838_problems<span class="op">$</span>row)) {
   <span class="kw">cat</span>(<span class="st">&quot; ------------&quot;</span>, <span class="st">&quot;Problem &quot;</span>, i, <span class="st">&quot; ------------&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
   ir &lt;-<span class="st"> </span>A838_problems<span class="op">$</span>row_file[i]
   <span class="kw">print</span>(<span class="kw">read_lines</span>(<span class="dt">file =</span> myfile)[(ir <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(ir <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)])
@@ -597,6 +595,92 @@ hdata &lt;-<span class="st"> </span><span class="kw">import_txt_files_inmet</spa
 </tr>
 </tbody>
 </table>
+</div>
+<div id="informacoes-da-sessao" class="section level1">
+<h1>Informações da sessão</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">session_info</span>()</code></pre></div>
+<pre><code>#&gt; Session info -------------------------------------------------------------</code></pre>
+<pre><code>#&gt;  setting  value                       
+#&gt;  version  R version 3.4.2 (2017-09-28)
+#&gt;  system   x86_64, linux-gnu           
+#&gt;  ui       X11                         
+#&gt;  language en                          
+#&gt;  collate  C                           
+#&gt;  tz       America/Sao_Paulo           
+#&gt;  date     2017-11-17</code></pre>
+<pre><code>#&gt; Packages -----------------------------------------------------------------</code></pre>
+<pre><code>#&gt;  package       * version    date       source                          
+#&gt;  assertthat      0.2.0      2017-04-11 CRAN (R 3.4.1)                  
+#&gt;  backports       1.1.1      2017-09-25 CRAN (R 3.4.2)                  
+#&gt;  base          * 3.4.2      2017-10-27 local                           
+#&gt;  bindr           0.1        2016-11-13 CRAN (R 3.4.1)                  
+#&gt;  bindrcpp      * 0.2        2017-06-17 cran (@0.2)                     
+#&gt;  broom           0.4.2      2017-02-13 CRAN (R 3.4.1)                  
+#&gt;  cellranger      1.1.0      2016-07-27 CRAN (R 3.4.1)                  
+#&gt;  colorspace      1.3-3      2017-09-14 R-Forge (R 3.4.1)               
+#&gt;  commonmark      1.4        2017-09-01 CRAN (R 3.4.1)                  
+#&gt;  compiler        3.4.2      2017-10-27 local                           
+#&gt;  crayon          1.3.4      2017-09-16 CRAN (R 3.4.2)                  
+#&gt;  datasets      * 3.4.2      2017-10-27 local                           
+#&gt;  desc            1.1.1.9002 2017-11-17 Github (r-lib/desc@921eb35)     
+#&gt;  devtools      * 1.13.3     2017-08-02 CRAN (R 3.4.1)                  
+#&gt;  digest          0.6.12     2017-01-27 CRAN (R 3.4.1)                  
+#&gt;  dplyr         * 0.7.4      2017-09-28 cran (@0.7.4)                   
+#&gt;  evaluate        0.10.1     2017-06-24 cran (@0.10.1)                  
+#&gt;  forcats         0.2.0      2017-01-23 CRAN (R 3.4.1)                  
+#&gt;  foreign         0.8-69     2017-06-21 CRAN (R 3.4.1)                  
+#&gt;  ggplot2       * 2.2.1.9000 2017-11-07 Github (hadley/ggplot2@47c3f75) 
+#&gt;  glue            1.2.0.9000 2017-11-17 Github (tidyverse/glue@58213a3) 
+#&gt;  graphics      * 3.4.2      2017-10-27 local                           
+#&gt;  grDevices     * 3.4.2      2017-10-27 local                           
+#&gt;  grid            3.4.2      2017-10-27 local                           
+#&gt;  gtable          0.2.0      2016-02-26 CRAN (R 3.4.1)                  
+#&gt;  haven           1.1.0      2017-07-09 CRAN (R 3.4.1)                  
+#&gt;  highr           0.6        2016-05-09 CRAN (R 3.4.1)                  
+#&gt;  hms             0.3        2016-11-22 CRAN (R 3.4.1)                  
+#&gt;  htmltools       0.3.6      2017-04-28 cran (@0.3.6)                   
+#&gt;  httr            1.3.1      2017-08-20 CRAN (R 3.4.1)                  
+#&gt;  inmetwrangler * 0.0.1      &lt;NA&gt;       local                           
+#&gt;  jsonlite        1.5        2017-06-01 cran (@1.5)                     
+#&gt;  knitr         * 1.17       2017-08-10 CRAN (R 3.4.1)                  
+#&gt;  lattice         0.20-35    2017-03-25 CRAN (R 3.4.1)                  
+#&gt;  lazyeval        0.2.1      2017-10-29 cran (@0.2.1)                   
+#&gt;  lubridate       1.7.1      2017-11-03 cran (@1.7.1)                   
+#&gt;  magrittr        1.5        2014-11-22 CRAN (R 3.4.1)                  
+#&gt;  memoise         1.1.0      2017-04-21 CRAN (R 3.4.1)                  
+#&gt;  methods       * 3.4.2      2017-10-27 local                           
+#&gt;  mnormt          1.5-5      2016-10-15 CRAN (R 3.4.1)                  
+#&gt;  modelr          0.1.1      2017-07-24 CRAN (R 3.4.1)                  
+#&gt;  munsell         0.4.3      2016-02-13 CRAN (R 3.4.1)                  
+#&gt;  nlme            3.1-131    2017-02-06 CRAN (R 3.4.1)                  
+#&gt;  parallel        3.4.2      2017-10-27 local                           
+#&gt;  pkgconfig       2.0.1      2017-03-21 CRAN (R 3.4.1)                  
+#&gt;  plyr            1.8.4      2016-06-08 CRAN (R 3.4.1)                  
+#&gt;  psych           1.7.8      2017-09-09 CRAN (R 3.4.1)                  
+#&gt;  purrr         * 0.2.4      2017-10-18 cran (@0.2.4)                   
+#&gt;  R6              2.2.2      2017-06-17 cran (@2.2.2)                   
+#&gt;  Rcpp            0.12.14    2017-11-17 Github (RcppCore/Rcpp@6feb538)  
+#&gt;  readr         * 1.1.1.9000 2017-11-17 Github (tidyverse/readr@1aa2a23)
+#&gt;  readxl          1.0.0      2017-04-18 CRAN (R 3.4.1)                  
+#&gt;  reshape2        1.4.2      2016-10-22 CRAN (R 3.4.1)                  
+#&gt;  rlang           0.1.2      2017-08-09 CRAN (R 3.4.1)                  
+#&gt;  rmarkdown       1.6        2017-06-15 CRAN (R 3.4.0)                  
+#&gt;  roxygen2        6.0.1      2017-02-06 CRAN (R 3.4.1)                  
+#&gt;  rprojroot       1.2        2017-01-16 CRAN (R 3.4.1)                  
+#&gt;  rstudioapi      0.7        2017-09-07 CRAN (R 3.4.1)                  
+#&gt;  rvest           0.3.2      2016-06-17 CRAN (R 3.4.1)                  
+#&gt;  scales          0.5.0.9000 2017-11-04 Github (hadley/scales@d767915)  
+#&gt;  stats         * 3.4.2      2017-10-27 local                           
+#&gt;  stringi         1.1.6      2017-11-17 CRAN (R 3.4.2)                  
+#&gt;  stringr       * 1.2.0      2017-02-18 CRAN (R 3.4.2)                  
+#&gt;  tibble        * 1.3.4      2017-08-22 CRAN (R 3.4.1)                  
+#&gt;  tidyr         * 0.7.2      2017-10-16 cran (@0.7.2)                   
+#&gt;  tidyverse     * 1.1.1      2017-01-27 CRAN (R 3.4.0)                  
+#&gt;  tools           3.4.2      2017-10-27 local                           
+#&gt;  utils         * 3.4.2      2017-10-27 local                           
+#&gt;  withr           2.1.0.9000 2017-11-04 Github (jimhester/withr@a9ebeb3)
+#&gt;  xml2            1.1.9000   2017-08-29 Github (hadley/xml2@5799cd9)    
+#&gt;  yaml            2.1.14     2016-11-12 CRAN (R 3.4.1)</code></pre>
 </div>
 <div class="footnotes">
 <hr />

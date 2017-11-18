@@ -14,11 +14,9 @@ vignette: >
 ---
 
 Os arquivos de dados horários das Estações Meteorológicas Automáticas (EMA) do 
-INMET obtidos através do [seoma.rs@inmet.gov.br](seoma.rs@inmet.gov.br)  para os estados do Sul do Brasil são disponibilizados em formato texto (ASCII). É comum em dados 
-armazenados em formato texto, mesmo temporariamente, que algum procedimento de 
-formatação manual seja realizada.
+INMET obtidos através do [seoma.rs@inmet.gov.br](seoma.rs@inmet.gov.br)  para os estados do Sul do Brasil são disponibilizados em formato texto (ASCII). 
 
-Os dados são armazenados em uma estrutura retangular, com as observações ao longo das linhas e as variáveis ao longo das colunas. Eventualmente, os arquivos podem tem sido editados manualmente e esse padrão pode ser quebrado, mesmo despropositadamente. Então uma da observação (linha) pode não conter os campos de todas as variáveis meteorológicas (colunas).
+Os dados são armazenados em uma estrutura retangular, com as observações ao longo das linhas e as variáveis ao longo das colunas. Eventualmente, os arquivos podem tem sido editados manualmente e esse padrão pode ser quebrado. Então uma da observação (linha) pode não conter os campos de todas as variáveis meteorológicas (colunas).
 
 A seguir mostra-se como usar o pacote `inmetwrangler` para importar os dados
 das EMA do INMET e diagnosticar onde (arquivos, linhas e colunas) ocorrem estes problemas. Esta informação pode servir para verificação dos dados com a agência que forneceu os dados, para descartar a hipótese de algum problema na extração dos dados ou na operação manual dos arquivos texto.
@@ -27,8 +25,11 @@ das EMA do INMET e diagnosticar onde (arquivos, linhas e colunas) ocorrem estes 
 
 Instalação do pacote `inmetwrangler`:
 
-```{r, eval = FALSE}
+```{r}
 library(devtools)
+```
+
+```{r, eval = FALSE}
 install_github("lhmet/inmetwrangler")
 ```
 
@@ -60,9 +61,9 @@ disponibilizados são:
 ```{r}
 #.libPaths()
 # arquivos disponíveis
-list.files(system.file("extdata", package = "inmetwrangler"
+list.files(system.file("extdata", package = "inmetwrangler"))
                        #, full.names = TRUE)
-))
+
 ```
 
 
@@ -73,10 +74,8 @@ system.file("extdata", "A838.txt", package = "inmetwrangler")
 ```
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
-library(dplyr)
 system.file("extdata", "A838.txt", package = "inmetwrangler") %>%
   stringr::str_replace_all(.libPaths()[1], "~/.R")
-detach(package:dplyr)
 ```
 
 ### Arquivos com cabeçalho variável
@@ -138,7 +137,7 @@ Esperavam-se 29 variáveis para a observação da linha 9712 (9741), entretanto,
 Para verificar no arquivo original é possível abri-lo em um editor de texto, ou executar os comandos abaixo em que importamos o arquivo da EMA de interesse (`myfile`) e filtrarmos os dados entre uma linha acima (`ir - 1`) e uma abaixo (`ir + 1`) da linha com problema (`ir`). 
 
 ```{r}
-for (i in 1:nrow(A838_problems)) {
+for (i in seq_along(A838_problems$row)) {
   cat(" ------------", "Problem ", i, " ------------", "\n")
   ir <- A838_problems$row_file[i]
   print(read_lines(file = myfile)[(ir - 1):(ir + 1)])
@@ -196,19 +195,9 @@ kable(tail(hdata[, 1:10]))
 ```
 
 
+# Informações da sessão
 
-
-
-```{r, fig.align='center', fig.height=9, fig.width=6, fig.cap = "Séries horárias de Precipitação.", eval = FALSE, echo=FALSE}
-## Gráficos
-#The figure sizes have been customised so that you can easily put two images side-by-side. 
-nsites <- length(unique(hdata$site))
-timePlot(hdata, 
-         "prec", 
-         type = "site", 
-         plot.type = "h", 
-         layout = c(1, nsites),
-         date.format = "%b\n%Y")
+```{r}
+session_info()
 ```
-
 
