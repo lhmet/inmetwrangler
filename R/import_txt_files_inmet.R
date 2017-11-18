@@ -65,17 +65,21 @@ read_txt_file_inmet <- function(.file,
   # set file_format (2 cases according to header files pattern)
   if (length(row_limits) == 2) {
     file_format <- 1 
+# nolint start
     ## header pattern
-    #"<html><head>"                                                                                                                                                                                                 
-    #"<meta http-equiv=\"content-type\" content=\"text/html; charset=windows-1252\"></head><body>Sql"                                                                                                               
-    #" - SELECT * FROM cadRema WHERE RemaEstacao='a807'  and RemaData BETWEEN "                                                                                                                                     
+    #"<html><head>"                                                           
+    #"<meta http-equiv=\"content-type\" content=\"text/html; charset=windows-1252\"></head><body>Sql"
+    #" - SELECT * FROM cadRema WHERE RemaEstacao='a807'  and RemaData BETWEEN "
     #"'2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora <br><pre>A807 2010 01 01 00 11.6 21 18.1 18.7 18.1 94 94 88 17.1 17.1 16.6 911.4 911.4 910.8 2.9 122 9.5 -2.240 0.0 / //// ///// ///// ="
+# nolint end
   } else {
     file_format <- 2
+# nolint start
     # header pattern
     #"Sql - SELECT * FROM cadRema WHERE RemaEstacao='A880' and RemaData BETWEEN '2010-01-01' AND '2011-12-31' ORDER BY RemaEstacao,RemaData,RemaHora "
     #""                                                                                                                                               
     #"A880 2010 01 01 00 12.3 17 14.7 16.0 14.7 80 81 76 11.3 12.6 11.3 906.8 906.8 906.5 4.6 106 9.5 -3.538 0.0 / //// ///// ///// ="
+# nolint end
   } 
   
   var_names <- c("site", "year", "month", "day", "hour_utc", 
@@ -155,12 +159,11 @@ read_txt_file_inmet <- function(.file,
         actual = paste(ncol(hdata), "columns"),
         file = ifelse(.full.names, 
                       .file,
-                      basename(.file))
-      )
+                      basename(.file)))
     }
     if (.only.problems) return(probs)
 
-    #extract_num <- function(x) as.numeric(gsub("[^0-9.-]+", "", as.character(x)))
+#extract_num <- function(x) as.numeric(gsub("[^0-9.-]+", "", as.character(x)))
     #pn <- parse_number(hdata$tair_max); attr(pn, "problems")
     #hdata$tair_max[is.na(parse_number(hdata$tair_max))]
     hdata <- suppressWarnings(dplyr::mutate_at(hdata,
@@ -183,7 +186,8 @@ read_txt_file_inmet <- function(.file,
     # .file <- "../data-raw/RAW-DATA-8o-DISME/data_piece_A803.txt"
     #.file <- "~/rows_prob_a803.txt"
 
-    # read_delim ignore empty rows (the last) and report problems better than data.table
+    # read_delim ignore empty rows (the last) 
+    #  and report problems better than data.table
     to_skip <- which(head(all_lines) == "")
     
     # to discover cols type
@@ -205,8 +209,9 @@ read_txt_file_inmet <- function(.file,
                           # and A803
                           skip = to_skip, 
                           col_names = FALSE,
-                          na = c("//////","/////", "////", "///", "//", "/", "="),
-                          guess_max = 16000
+                          na = c("//////","/////", "////",
+                                 "///", "//", "/", "="),
+                          guess_max = 20000
         ) %>%
         setNames(var_names) %>%
         dplyr::select(-trash)
@@ -222,7 +227,8 @@ read_txt_file_inmet <- function(.file,
                             # and A803
                             skip = to_skip, 
                             col_names = FALSE,
-                            na = c("//////","/////", "////", "///", "//", "/", "="),
+                            na = c("//////","/////", "////",
+                                   "///", "//", "/", "="),
                             guess_max = 16000)
         )
 
@@ -263,7 +269,7 @@ read_txt_file_inmet <- function(.file,
     #                            header = FALSE,
     #                            skip = 2,
     #                            #fill = TRUE,
-    #                            na.strings = c("//////","/////", "////", "///", "//", "/", "=")
+    #          na.strings = c("//////","/////", "////", "///", "//", "/", "=")
     # ) %>%
     #    as_tibble() %>%
     #View(hdata2[probs[["row"]], ])
