@@ -12,12 +12,12 @@
 #' @param ex.dir The directory to extract files to 
 #'
 #'@details Useful for vignettes and examples.
-#' @return
+#' @return 
 #'
 #' @examples
 #' 
 untar_file <- function(file.txt = "A804.txt",
-                       file.tar.gz = "RAW-DATA-8o-DISME/extdata.tar.gz",
+                       file.tar.gz = "RAW-DATA-8o-DISME/inmet-data-ascii-seomars.tar.gz",
                        ex.dir = "."){
   stopifnot(file.txt %in% untar(file.tar.gz, list = TRUE))
   untar(file.tar.gz, files = file.txt, exdir = ex.dir)
